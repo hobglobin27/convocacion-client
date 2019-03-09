@@ -3,7 +3,6 @@ import Inicio from "./components/Inicio"
 import './components/estilos/styles.css';
 import 'antd/dist/antd.css';
 import NavBar from './components/NavBar';
-import Registro from './components/Registro'
 import { Layout} from 'antd';
 
 const { Header, Footer, Content } = Layout;
