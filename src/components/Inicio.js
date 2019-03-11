@@ -13,6 +13,7 @@ class Inicio extends Component{
               className='video_background'
               playing
               loop
+              muted
               width='100%'
               height='47.5vw'
             />            

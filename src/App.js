@@ -4,6 +4,7 @@ import './components/estilos/styles.css';
 import 'antd/dist/antd.css';
 import NavBar from './components/NavBar';
 import { Layout} from 'antd';
+import Articulos from './components/Articulos';
 
 const { Header, Footer, Content } = Layout;
 
@@ -11,14 +12,15 @@ class App extends Component {
   render() {
     return (
       <Layout className="layout">
-        <Header>
+        <Header> 
           <div className="logo">
             <img className="logoProps" src="https://res.cloudinary.com/dbwsjcrfc/image/upload/v1552166212/imagenes/logo2.png" alt=""/>
-          </div>
-          <NavBar/>
+          </div>        
+          <NavBar />          
         </Header>
         <Content className="fondo">
           <Inicio />
+          <Articulos />
         </Content>        
         <Footer className="fondoFooter" style={{background: "#09182e", color: "#ffffff"}}>
           Con vocación ©2018 Created by IPA

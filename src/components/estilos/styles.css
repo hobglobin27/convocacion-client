@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Plok:300');
 @import url('https://fonts.googleapis.com/css?family=Roboto:300');
 
 .posicion {
@@ -9,11 +10,11 @@
 
 .cuerpo {
   text-align:center;  
-  font-family:'Roboto';
+  font-family:'Plok';
   font-weight: 500;
-  font-size:4.5vw;
+  font-size:2.2vw;
   overflow:hidden;
-  color: black;
+  color: rgb(238, 96, 40);
   -webkit-backface-visibility: hidden;
   -webkit-perspective: 1000;
   -webkit-transform: translate3d(0,0,0);
@@ -30,12 +31,12 @@
 }
 
 .textoInicio:last-of-type {
-  width:0px;
+  width:0vw;
   animation: reveal 20s infinite;
 }
 
 .textoInicio:last-of-type span {
-  margin-left:-355px;
+  margin-left:-35vw;
   animation: slidein 20s infinite;
 }
 
@@ -47,18 +48,18 @@
 }
 
 @keyframes slidein {
-  0% { margin-left:-800px; }
-  20% { margin-left:-800px; }
-  35% { margin-left:0px; }
-  100% { margin-left:0px; }
+  0% { margin-left:-80vw; }
+  20% { margin-left:-80vw; }
+  35% { margin-left:0vw; }
+  100% { margin-left:0vw; }
 }
 
 @keyframes reveal {
-  0% {opacity:0;width:0px;}
-  20% {opacity:1;width:0px;}
-  30% {width:42vw;}
+  0% {opacity:0;width:0vw;}
+  20% {opacity:1;width:0vw;}
+  30% {width:48vw;}
   60% {opacity:1;}
-  100% {opacity:0;width:42vw;}
+  100% {opacity:0;width:48vw;}
 }
 
 .video_background { 
@@ -67,27 +68,26 @@
   right: 0;
   bottom: 0;
   left: 0;
-  opacity: 0.5;	
+  opacity: 0.3;	
 	min-width: 100%; 
 	min-height: 100%; 
 	width: 100%; 
-	height: 100%; 
-	 
+  height: 100%; 
+  z-index: 0;
 	overflow: hidden; 
 }
 
 .logo {
-  width: 70vw;
-  float: left;
+  width: 8vw;
+  float: right;
 }
 
 .logoProps {
-  width: 8vw; 
+  width: 5rem;
 }
 
 .fondo {
-  background-color:#BB5E24;
-  z-index: 0;
+  background-color:rgb(224, 198, 183);
 }
 
 .fondoFooter{
