@@ -9,7 +9,7 @@ class Articulos extends Component {
   
   getPruebas = () =>{
     fetch(process.env.REACT_APP_API_URL + "/prueba",{
-      mode: 'no-cors',
+      mode: 'cors',
       headers: {
         'Access-Control-Allow-Origin':'*',
         "Content-Type": "application/json"
@@ -20,7 +20,10 @@ class Articulos extends Component {
             titulo: json.titulo
         })
       })
+      .catch(err=>console.log(err))
     })
+    .catch(err=>console.log(err))
+
   }
 
   componentDidMount() {
