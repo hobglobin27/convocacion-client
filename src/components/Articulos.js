@@ -11,7 +11,7 @@ class Articulos extends Component {
     fetch(process.env.REACT_APP_API_URL + "/prueba",{
       mode: 'cors',
       headers: {
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin': process.env.REACT_APP_API_URL,
         "Content-Type": "application/json"
       }})
       .then(responseFromApi => {
