@@ -8,11 +8,15 @@ class Articulos extends Component {
   }
   
   getPruebas = () =>{
-    fetch(process.env.REACT_APP_API_URL + "/prueba")
+    fetch(process.env.REACT_APP_API_URL + "/prueba",{
+      mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin':'*'
+      }})
       .then(responseFromApi => {
-        responseFromApi.json().then(vuelta=>{
+        responseFromApi.json().then(json=>{
           this.setState({
-            titulo: vuelta.titulo
+            titulo: json.titulo
         })
       })
     })
