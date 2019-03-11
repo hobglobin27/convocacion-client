@@ -18,7 +18,7 @@ class Articulos extends Component {
     })
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getPruebas();
   }
 
