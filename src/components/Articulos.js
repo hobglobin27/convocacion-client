@@ -10,9 +10,9 @@ class Articulos extends Component {
   getPruebas = () =>{
     fetch(process.env.REACT_APP_API_URL + "/prueba")
       .then(responseFromApi => {
-        responseFromApi.json().then(json=>{
+        responseFromApi.json().then(vuelta=>{
           this.setState({
-            titulo: json.titulo
+            titulo: vuelta.titulo
         })
       })
     })
