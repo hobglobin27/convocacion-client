@@ -4,7 +4,7 @@
 .posicion {
   position: absolute;
   width: 100%;
-  top: 25vw;  
+  top: 45vw;  
   text-align: center;
 }
 
@@ -87,9 +87,44 @@
 }
 
 .fondo {
-  background-color:rgb(224, 198, 183);
+  background-color:rgb(236, 228, 223);
 }
 
 .fondoFooter{
   text-align: center;
+}
+
+.estilo-nav{
+  color: #ffffff;
+}
+
+.contenedor-log-reg{
+  display: flex;
+  justify-content: center;
+}
+
+.barras{
+  text-align: center;
+  background: rgb(238, 96, 40);
+  color: white;
+  width:74%; 
+  border-radius: 20px;
+}
+
+.barra-principal{
+  background: rgb(238, 96, 40);
+  width:74%; 
+  border-radius: 20px;
+}
+
+.barra-izquierda{
+  padding-top: 5%;
+  font-size: 2rem;
+  color: white;
+  line-height: 130%;
+  width: 50%
+}
+.barra-derecha{
+  padding-top: 5%;
+  color: white;
 }

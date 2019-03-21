@@ -1,32 +1,56 @@
+//Imports para React
 import React, { Component } from 'react';
-import Inicio from "./components/Inicio"
+import {Switch, Route} from "react-router-dom"
+import { Layout} from 'antd';
+import { Form } from 'antd';
+import { Link } from 'react-router-dom';
+import { Provider } from "react-redux";
+import store from "./reduxstore/store";
+
+//Imports componentes propios
+import Inicio from "./components/comunes/Inicio"
+import NavBar from './components/comunes/NavBar'
+import Articulos from './components/listas/Articulos'
+import Login from './components/auth/Login'
+import Registro from './components/auth/Registro'
+
+//Imports estilos
 import './components/estilos/styles.css';
 import 'antd/dist/antd.css';
-import NavBar from './components/NavBar';
-import { Layout} from 'antd';
-import Articulos from './components/Articulos';
 
 const { Header, Footer, Content } = Layout;
+const LoginForm = Form.create({ name: 'normal_login' })(Login);
+const RegistroForm = Form.create({ name: 'register' })(Registro);
 
 class App extends Component {
+  
   render() {
     return (
-      <Layout className="layout">
-        <Header> 
-          <div className="logo">
-            <img className="logoProps" src="https://res.cloudinary.com/dbwsjcrfc/image/upload/v1552166212/imagenes/logo2.png" alt=""/>
-          </div>        
-          <NavBar />          
-        </Header>
-        <Content className="fondo">
-          <Inicio />
-          <Articulos />
-        </Content>        
-        <Footer className="fondoFooter" style={{background: "#09182e", color: "#ffffff"}}>
-          Con vocación ©2018 Created by IPA
-        </Footer>
-      </Layout>
-
+      <Provider store={store}>
+        <Layout className="layout">
+          <Header> 
+            <div className="logo">
+              <Link to="/" ><img className="logoProps" src="https://res.cloudinary.com/dbwsjcrfc/image/upload/v1552166212/imagenes/logo2.png" alt=""/></Link>          
+            </div>
+            <NavBar />         
+          </Header>
+          <Content className="fondo">   
+            <Switch> 
+              <Route exact path="/" component={Inicio}/>
+              <div className='container'>
+                <div className='contenedor-log-reg'>
+                  <Route exact path="/registro" component={RegistroForm}/>
+                  <Route exact path="/login" component={LoginForm} />
+                </div>              
+              </div>                     
+            </Switch>         
+            <Articulos />
+          </Content>    
+          <Footer className="fondoFooter" style={{background: "#09182e", color: "#ffffff"}}>
+            Con vocación ©2018 Created by IPA
+          </Footer>
+        </Layout>
+      </Provider>
     );
   }
 }
