@@ -10,9 +10,9 @@ class ListaTutores extends Component {
 	render() {
     const { tutores } = this.props;
 		return (
-			<section className="container d-flex flex-wrap justify-content-around">
-				{tutores.map(avatar => 
-					<AvatarTutor {...avatar} />
+			<section className="d-flex flex-wrap justify-content-around">
+				{tutores.map((avatar,index) => 
+					<AvatarTutor {...avatar} key={index}/>
 				)}
 			</section>
 		);

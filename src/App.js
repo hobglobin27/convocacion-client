@@ -23,28 +23,29 @@ const LoginForm = Form.create({ name: 'normal_login' })(Login);
 const RegistroForm = Form.create({ name: 'register' })(Registro);
 
 class App extends Component {
-  
+
   render() {
     return (
       <Provider store={store}>
         <Layout className="layout">
           <Header> 
             <div className="logo">
-              <Link to="/" ><img className="logoProps" src="https://res.cloudinary.com/dbwsjcrfc/image/upload/v1552166212/imagenes/logo2.png" alt=""/></Link>          
+              <Link to="/"><img className="logoProps" src="https://res.cloudinary.com/dbwsjcrfc/image/upload/v1552166212/imagenes/logo2.png" alt=""/></Link>          
             </div>
             <NavBar />         
           </Header>
           <Content className="fondo">   
             <Switch> 
               <Route exact path="/" component={Inicio}/>
-              <div className='container'>
-                <div className='contenedor-log-reg'>
+              <div className='container-fluid'>
+                <div className='contenedor-reg'>
                   <Route exact path="/registro" component={RegistroForm}/>
-                  <Route exact path="/login" component={LoginForm} />
-                </div>              
+                </div> 
+                <div className='contenedor-log'>
+                <Route exact path="/login" component={LoginForm} />
+                </div>      
               </div>                     
-            </Switch>         
-            <Articulos />
+            </Switch> 
           </Content>    
           <Footer className="fondoFooter" style={{background: "#09182e", color: "#ffffff"}}>
             Con vocación ©2018 Created by IPA
@@ -54,4 +55,5 @@ class App extends Component {
     );
   }
 }
+
 export default App;

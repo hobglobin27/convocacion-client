@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import 'antd/dist/antd.css';
-import { Form, Input, Button} from 'antd';
-import AuthService from "./auth-service"
-import { Link } from 'react-router-dom';
+import { Form, Input, Button, Icon} from 'antd';
+import AuthService from "../../servicios/auth-service"
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import {CURRENT_LOGIN} from "../../actions/types"
@@ -12,15 +12,21 @@ const service = new AuthService();
 class Registro extends Component {
   state = {
     confirmDirty: false,
+    confirmEmail: false,
     autoCompleteResult: [],
     username: "",
-    password: ""
+    password: "",
+    errorSignup: false,
+    errorMessage: ""
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
     const username = this.state.username;
     const password = this.state.password;
+
+    console.log("Este es el usuario: ",username)
+    console.log("Este es el password: ", password)
 
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -29,13 +35,21 @@ class Registro extends Component {
     });
 
     service.signup(username, password)
-    .then( () => {
-      const username = "";
-      const password = "";
-      this.setState({username,password});
-      // this.props.getUser(response)
-  })
-  .catch( error => console.log(error) )
+    .then( response => {
+      console.log("Este es el response de signup: ", response.message)
+      if(response._id !== undefined && response._id !== null){
+        const username = "";
+        const password = "";
+        this.setState({username,password});
+        this.props.getUser(response);
+        this.props.form.resetFields();
+      }
+      else{
+        this.setState({errorSignup: true,
+                      errorMessage: response.message})
+        }
+    })
+    .catch( error => console.log(error) )
   }
 
   handleChange = (event) => {  
@@ -43,6 +57,20 @@ class Registro extends Component {
     this.setState({[name]: value});
     if(event.target.value === "")
       this.setState({confirmDirty : false})
+    this.setState({errorMessage: false,
+                   message: ""})
+  }
+
+  valida = (rule, value, callback) => {
+    const form = this.props.form;
+    const campo = form.getFieldValue('email');    
+    const emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+    if (emailRegex.test(campo)) {
+      this.setState({confirmEmail : true});
+    } else {
+      this.setState({confirmEmail : false});
+    }
+    callback();
   }
 
   loginSelected = () => this.props.setCurrentNav(CURRENT_LOGIN);
@@ -56,7 +84,7 @@ class Registro extends Component {
     const form = this.props.form;
     if (value && value !== form.getFieldValue('password')) {
       this.setState({confirmDirty : false})
-      callback('Two passwords that you enter is inconsistent!');      
+      callback('Los passwords que informaste no son iguales!');      
     } else {
       if(value === "")
         this.setState({confirmDirty : false})
@@ -103,63 +131,75 @@ class Registro extends Component {
       },
     };
 
+    if(this.props.loggedIn)
+      return <Redirect to="/" />
+
     return (
-        <Form {...formItemLayout} onSubmit={this.handleSubmit} style={{border:"solid #FE9A2E 1px",  borderRadius: "10px",  width: "30%", padding:"1%", margin: "1%", background:"#FE9A2E" }}>
+        <Form {...formItemLayout} className="estilo-reg" onSubmit={this.handleSubmit} style={{padding:"1%", marginTop: "5%", marginBottom: "5%"}}>
+          <br/>
           <Form.Item
-            label="E-mail"
+            hasFeedback
           >
             {getFieldDecorator('email', {
               rules: [{
-                type: 'email', message: 'The input is not valid E-mail!',
+                type: 'email', message: 'El e-mail introducido no es valido!', 
               }, {
-                required: true, message: 'Please input your E-mail!',
+                required: true, message: 'Por favor ingresa tu e-mail!'
+              },{
+                validator: this.valida
               }],
             })(
-              <Input name="username" onChange = { e => this.handleChange(e)}/>
+              <Input name="username" onChange = { e => this.handleChange(e)} prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Email"/>
             )}
           </Form.Item>
+          <br/>
           <Form.Item
-            label="Password"
           >
             {getFieldDecorator('password', {
               rules: [{
-                required: true, message: 'Please input your password!',
+                required: true, message: 'Por favor ingresa tu password!'
               }, {
                 validator: this.validateToNextPassword,
               }],
             })(
-              <Input type="password" name="password" onChange = { e => this.handleChange(e)}/>
+              <Input name="password" type="password" onChange = { e => this.handleChange(e)} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Password"/>
             )}
           </Form.Item>
+          <br/>
           <Form.Item
-            label="Confirm Password"
           >
             {getFieldDecorator('confirm', {
               rules: [{
-                required: true, message: 'Please confirm your password!',
+                required: true, message: 'Por favor confirma tu password!'
               }, {
                 validator: this.compareToFirstPassword,
               }],
             })(
-              <Input type="password" name="confirm" onBlur ={e => this.handleConfirmBlur(e)} onChange = { e => this.handleChange(e)}/>
+              <Input name="confirm" type="password" onBlur ={e => this.handleConfirmBlur(e)} onChange = { e => this.handleChange(e)}prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Confirmar password"/>
             )}
           </Form.Item>
-          
-          <Form.Item {...tailFormItemLayout}>
-            {this.state.confirmDirty === true ?
-              <Button type="primary" htmlType="submit" >Register</Button>
+          {this.state.errorMessage ? 
+            <p style={{color: "red"}}>{this.state.errorMessage}!</p>
             :
-              <Button type="primary" htmlType="submit" disabled="true"  >Register</Button>}
+            <p></p>
+          }
+          <br/>
+          <Form.Item {...tailFormItemLayout}>
+            {this.state.confirmDirty && this.state.confirmEmail ?
+              <Button type="primary" htmlType="submit" >Registrate</Button>
+            :
+              <Button type="primary" htmlType="submit" disabled="true">Registrate</Button>}
           </Form.Item>
-          <p>Already have account? 
+          <p>Ya tienes una cuenta? 
             <Link to={"/login"} onClick={this.loginSelected}> Ingresa</Link>
         </p>
-        </Form>
+        </Form> 
     );
   }
 }
 
-const mapStateToProps = state => ({ current: state.current });
+const mapStateToProps = state => ({ current: state.current,
+                                    loggedIn: state.loggedIn });
 
 export default connect(
   mapStateToProps,

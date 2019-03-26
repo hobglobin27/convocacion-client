@@ -1,20 +1,13 @@
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:300');
 
-.posicion {
-  position: absolute;
-  width: 100%;
-  top: 45vw;  
-  text-align: center;
-}
-
 .cuerpo {
   text-align:center;  
   font-family:'Plok';
   font-weight: 500;
   font-size:2.2vw;
   overflow:hidden;
-  color: rgb(238, 96, 40);
+  color: #09182e;
   -webkit-backface-visibility: hidden;
   -webkit-perspective: 1000;
   -webkit-transform: translate3d(0,0,0);
@@ -27,17 +20,17 @@
 }
 
 .textoInicio:first-of-type {
-  animation: showup 20s infinite;
+  animation: showup 12s infinite;
 }
 
 .textoInicio:last-of-type {
   width:0vw;
-  animation: reveal 20s infinite;
+  animation: reveal 12s infinite;
 }
 
 .textoInicio:last-of-type span {
   margin-left:-35vw;
-  animation: slidein 20s infinite;
+  animation: slidein 12s infinite;
 }
 
 @keyframes showup {
@@ -98,33 +91,89 @@
   color: #ffffff;
 }
 
-.contenedor-log-reg{
+.contenedor-log{
   display: flex;
   justify-content: center;
+  background-image: url("https://res.cloudinary.com/dbwsjcrfc/image/upload/v1553220310/imagenes/ni%C3%B1a-estudiando.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.contenedor-reg{
+  display: flex;
+  justify-content: left;
+  background-image: url("https://res.cloudinary.com/dbwsjcrfc/image/upload/v1553212147/imagenes/principal.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .barras{
   text-align: center;
   background: rgb(238, 96, 40);
   color: white;
-  width:74%; 
+  width: 100%; 
   border-radius: 20px;
 }
 
 .barra-principal{
-  background: rgb(238, 96, 40);
-  width:74%; 
+  border: solid rgb(238, 96, 40) 1px;
+  width:80%; 
   border-radius: 20px;
 }
 
 .barra-izquierda{
-  padding-top: 5%;
-  font-size: 2rem;
-  color: white;
+  padding-top: 2%;
+  padding-left: 8%;
+  font-size:2.5rem;
+  color: rgb(238, 96, 40);;
   line-height: 130%;
-  width: 50%
+  width: 70%
 }
 .barra-derecha{
-  padding-top: 5%;
+  padding-top: 0%;
   color: white;
+  width: 30%
+}
+
+.count-tutor-style{
+  height: 60%;
+  border-radius: 5px; 
+  margin-top: 10%;
+  color: #09182e;;
+}
+
+.count-tutortext-style{
+  font-size: 1rem; 
+  text-align: center; 
+  padding-left: 30px; 
+  padding-right: 30px; 
+  padding-top: 0%;
+}
+
+.count-tutorcount-style{
+  font-size:2.5rem; 
+  text-align: center; 
+  padding-left: 30px; 
+  padding-right: 30px; 
+}
+
+.estilo-login{
+  border: solid orange 2px;  
+  border-radius: 10px;  
+  width: 30%;
+  background: #FCD3AE; 
+  color: black;
+}
+
+.estilo-reg{
+  border: solid orange 2px;  
+  border-radius: 10px;
+  width: 30%;
+  background: #FCD3AE; 
+  color: black;
+}
+
+.avatar-enter{
+  border: solid rgb(238, 96, 40) 5px;
+  font-family: Plok;
 }

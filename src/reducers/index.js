@@ -1,8 +1,12 @@
 import { combineReducers } from "redux";
-import currentmenureducer from "./current-menu-reducer";
-import listatutoresreducer from "./lista-tutores-reducer";
+import currentMenuReducer from "./current-menu-reducer";
+import listaTutoresReducer from "./lista-tutores-reducer";
+import countTutoresReducer from "./count-tutores-reducer";
+import getUserReducer from "./get-user-reducer"
 
 export default combineReducers({
-	current: currentmenureducer,
-	tutores: listatutoresreducer
+	current: currentMenuReducer,
+	tutores: listaTutoresReducer,
+	counttutores: countTutoresReducer,
+	loggedIn: getUserReducer
 });

@@ -1,3 +1,6 @@
 export const CURRENT_LOGIN = "CURRENT_LOGIN";
 export const CURRENT_REGISTRO = "CURRENT_REGISTRO";
 export const GET_TOP_TUTORES = "GET_TOP_TUTORES";
+export const GET_COUNT_TUTORES = "GET_COUNT_TUTORES";
+export const CURRENT_HOME = "CURRENT_HOME";
+export const GET_USER = "SET_USER";
