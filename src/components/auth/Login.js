@@ -24,24 +24,12 @@ class Login extends Component {
     correo: "",
     errorLogin: false,
     errorCorreo: false,
-    errorMessage: "",
-    modalOlvidoPassword: false,
-    modalCambioPassword: false     
+    errorMessage: ""  
   };
 
-  showModalOlvidoPassword = () => {   
+  showModal = () => {   
     this.setState({
-      visible: true,
-      modalOlvidoPassword: true,
-      modalCambioPassword: false
-    });
-  }
-
-  showModalCambioContraseña = () => {   
-    this.setState({
-      visible: true,
-      modalOlvidoPassword: false,
-      modalCambioPassword: true
+      visible: true
     });
   }
 
@@ -180,53 +168,50 @@ class Login extends Component {
 
     return (
       <Fragment>
-      <Form onSubmit={this.handleSubmit} className="login-form estilo-login" style={{paddingTop: "5%", paddingLeft: "1%", paddingRight: "1%", paddingBottom: "3%", marginTop: "5%", marginBottom: "5.5%"}}>
-        <Form.Item
-          hasFeedback
-        >
-          {getFieldDecorator('username', {
-             rules: [{
-              type: 'email', message: 'El usuario introducido no es valido!', 
-            },
-            {
-              validator: this.validaUser,
-            }],
-          })(
-            <Input name="username" onChange = { e => this.handleChange(e)} prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Usuario" />
-          )}
-        </Form.Item>
-        <br/>
-        <Form.Item>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Por favor ingresa tu Password!' },
-            {
-              validator: this.validaPassword,
-            }],
-          })(
-            <Input name="password" onChange = { e => this.handleChange(e)} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
-          )}
-        </Form.Item>
-        {this.state.errorLogin ?
-          <p style={{color: "red"}}>{this.state.errorMessage}!</p>
-          :
-          <p></p>
-        }
-        <Form.Item >         
-          <a className="login-form-forgot" onClick={this.showModalOlvidoPassword} href="#">Olvidaste tu password?</a>
-          {this.state.confirmDirty && this.state.confirmUser ?
-            <Button type="primary" htmlType="submit" className="login-form-button" style={{width:"100%"}}>
-              Log in
-            </Button>
-          :
-            <Button type="primary" htmlType="submit" className="login-form-button" style={{width:"100%"}} disabled={true}>
-              Log in
-            </Button>}
-          No tienes cuenta?<Link to={"/registro"} onClick={this.registroSelected}> Registrate!</Link>
+        <Form onSubmit={this.handleSubmit} className="login-form estilo-login" style={{paddingTop: "5%", paddingLeft: "1%", paddingRight: "1%", paddingBottom: "3%", marginTop: "5%", marginBottom: "5.5%"}}>
+          <Form.Item
+            hasFeedback
+          >
+            {getFieldDecorator('username', {
+              rules: [{
+                type: 'email', message: 'El usuario introducido no es valido!', 
+              },
+              {
+                validator: this.validaUser,
+              }],
+            })(
+              <Input name="username" onChange = { e => this.handleChange(e)} prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Usuario" />
+            )}
+          </Form.Item>
           <br/>
-          <a className="login-form-forgot" onClick={this.showModalCambioContraseña} href="#">Cambia tu contraseña.</a>
-        </Form.Item>
-      </Form>
-      {this.state.modalOlvidoPassword ?
+          <Form.Item>
+            {getFieldDecorator('password', {
+              rules: [{ required: true, message: 'Por favor ingresa tu Password!' },
+              {
+                validator: this.validaPassword,
+              }],
+            })(
+              <Input name="password" onChange = { e => this.handleChange(e)} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+            )}
+          </Form.Item>
+          {this.state.errorLogin ?
+            <p style={{color: "red"}}>{this.state.errorMessage}!</p>
+            :
+            <p></p>
+          }
+          <Form.Item >         
+            <a className="login-form-forgot" onClick={this.showModal} href="#">Olvidaste tu password?</a>
+            {this.state.confirmDirty && this.state.confirmUser ?
+              <Button type="primary" htmlType="submit" className="login-form-button" style={{width:"100%"}}>
+                Log in
+              </Button>
+            :
+              <Button type="primary" htmlType="submit" className="login-form-button" style={{width:"100%"}} disabled={true}>
+                Log in
+              </Button>}
+            No tienes cuenta?<Link to={"/registro"} onClick={this.registroSelected}> Registrate!</Link>
+          </Form.Item>
+        </Form>
         <Modal
           visible={visible}
           title="Introduce tu correo y te enviaremos tu contraseña"
@@ -261,23 +246,6 @@ class Login extends Component {
             }
           </Form> 
         </Modal>
-        :
-        <Modal
-          visible={visible}
-          title="Introduce tu correo y te enviaremos tu contraseña"
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          footer={[
-            <Button key="back" onClick={this.handleCancel}>Cancelar</Button>,
-            <Button id="botonEnvioPassword" key="submit" type="primary" loading={loading} onClick={this.handleOk}>
-              Enviar correo
-            </Button>,
-          ]}>
-          
-          
-        </Modal>
-      }
-      
       </Fragment>
     );
   }
