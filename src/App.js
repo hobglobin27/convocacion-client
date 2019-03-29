@@ -10,7 +10,7 @@ import store from "./reduxstore/store";
 //Imports componentes propios
 import Inicio from "./components/comunes/Inicio"
 import NavBar from './components/comunes/NavBar'
-import Articulos from './components/listas/Articulos'
+import Perfil from './components/complementar/Perfil'
 import Login from './components/auth/Login'
 import Registro from './components/auth/Registro'
 
@@ -21,6 +21,7 @@ import 'antd/dist/antd.css';
 const { Header, Footer, Content } = Layout;
 const LoginForm = Form.create({ name: 'normal_login' })(Login);
 const RegistroForm = Form.create({ name: 'register' })(Registro);
+const PerfilForm = Form.create({ name: 'perfil' })(Perfil);
 
 class App extends Component {
 
@@ -28,11 +29,11 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Layout className="layout">
-          <Header> 
+          <Header>            
             <div className="logo">
               <Link to="/"><img className="logoProps" src="https://res.cloudinary.com/dbwsjcrfc/image/upload/v1552166212/imagenes/logo2.png" alt=""/></Link>          
             </div>
-            <NavBar />         
+            <NavBar />      
           </Header>
           <Content className="fondo">   
             <Switch> 
@@ -42,8 +43,11 @@ class App extends Component {
                   <Route exact path="/registro" component={RegistroForm}/>
                 </div> 
                 <div className='contenedor-log'>
-                <Route exact path="/login" component={LoginForm} />
-                </div>      
+                  <Route exact path="/login" component={LoginForm} />
+                </div>
+                <div className=''>
+                  <Route exact path="/perfil" component={PerfilForm} />
+                </div>        
               </div>                     
             </Switch> 
           </Content>    

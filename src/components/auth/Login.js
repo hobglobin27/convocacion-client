@@ -164,89 +164,101 @@ class Login extends Component {
     const { visible, loading } = this.state;
 
     if(this.props.loggedIn)
-      return <Redirect to="/" />
+      return <Redirect to="/perfil" />
 
     return (
-      <Fragment>
-        <Form onSubmit={this.handleSubmit} className="login-form estilo-login" style={{paddingTop: "5%", paddingLeft: "1%", paddingRight: "1%", paddingBottom: "3%", marginTop: "5%", marginBottom: "5.5%"}}>
-          <Form.Item
-            hasFeedback
-          >
-            {getFieldDecorator('username', {
-              rules: [{
-                type: 'email', message: 'El usuario introducido no es valido!', 
-              },
-              {
-                validator: this.validaUser,
-              }],
-            })(
-              <Input name="username" onChange = { e => this.handleChange(e)} prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Usuario" />
-            )}
-          </Form.Item>
-          <br/>
-          <Form.Item>
-            {getFieldDecorator('password', {
-              rules: [{ required: true, message: 'Por favor ingresa tu Password!' },
-              {
-                validator: this.validaPassword,
-              }],
-            })(
-              <Input name="password" onChange = { e => this.handleChange(e)} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
-            )}
-          </Form.Item>
-          {this.state.errorLogin ?
-            <p style={{color: "red"}}>{this.state.errorMessage}!</p>
-            :
-            <p></p>
-          }
-          <Form.Item >         
-            <a className="login-form-forgot" onClick={this.showModal} href="#">Olvidaste tu password?</a>
-            {this.state.confirmDirty && this.state.confirmUser ?
-              <Button type="primary" htmlType="submit" className="login-form-button" style={{width:"100%"}}>
-                Log in
-              </Button>
-            :
-              <Button type="primary" htmlType="submit" className="login-form-button" style={{width:"100%"}} disabled={true}>
-                Log in
-              </Button>}
-            No tienes cuenta?<Link to={"/registro"} onClick={this.registroSelected}> Registrate!</Link>
-          </Form.Item>
-        </Form>
-        <Modal
-          visible={visible}
-          title="Introduce tu correo y te enviaremos tu contraseña"
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          footer={[
-            <Button key="back" onClick={this.handleCancel}>Cancelar</Button>,
-            <Button id="botonEnvioPassword" key="submit" type="primary" loading={loading} onClick={this.handleOk}>
-              Enviar correo
-            </Button>,
-          ]}>
-          
-          <Form>
+      <div className="row">          
+        <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style={{width:"100%"}}>
+          <div >
+            <div style={{paddingTop: "1%", textAlign:"center", fontSize:"2rem"}}>
+              Bienvenido!
+            </div>
+            <div style={{paddingTop: "1%", textAlign:"center", fontSize:"1.5rem"}}>
+              Introduce tus datos de Ingreso.
+            </div>
+          </div>
+          <Form onSubmit={this.handleSubmit} className="login-form estilo-login" style={{paddingTop: "5%", paddingLeft: "5%", paddingRight: "5%", paddingBottom: "3%", marginTop: "10%", marginBottom: "11.4%"}}>
             <Form.Item
               hasFeedback
             >
-              {getFieldDecorator('correo', {
+              {getFieldDecorator('username', {
                 rules: [{
                   type: 'email', message: 'El usuario introducido no es valido!', 
                 },
                 {
-                  validator: this.validaCorreo,
+                  validator: this.validaUser,
                 }],
               })(
-                <Input id="correoEnvioPassword" name="correo" onChange = {this.handleChange} prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Intruduce tu email" />
+                <Input name="username" onChange = { e => this.handleChange(e)} prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Usuario" />
               )}
             </Form.Item>
-            {this.state.errorCorreo ? 
+            <br/>
+            <Form.Item>
+              {getFieldDecorator('password', {
+                rules: [{ required: true, message: 'Por favor ingresa tu Password!' },
+                {
+                  validator: this.validaPassword,
+                }],
+              })(
+                <Input name="password" onChange = { e => this.handleChange(e)} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
+              )}
+            </Form.Item>
+            {this.state.errorLogin ?
               <p style={{color: "red"}}>{this.state.errorMessage}!</p>
               :
               <p></p>
             }
-          </Form> 
-        </Modal>
-      </Fragment>
+            <Form.Item >         
+              <a className="login-form-forgot" onClick={this.showModal} href="#">Olvidaste tu password?</a>
+              {this.state.confirmDirty && this.state.confirmUser ?
+                <Button type="primary" htmlType="submit" className="login-form-button" style={{width:"100%"}}>
+                  Log in
+                </Button>
+              :
+                <Button type="primary" htmlType="submit" className="login-form-button" style={{width:"100%"}} disabled={true}>
+                  Log in
+                </Button>}
+              No tienes cuenta?<Link to={"/registro"} onClick={this.registroSelected}> Registrate!</Link>
+            </Form.Item>
+          </Form>
+          
+          <Modal
+            visible={visible}
+            title="Introduce tu correo y te enviaremos tu contraseña"
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={[
+              <Button key="back" onClick={this.handleCancel}>Cancelar</Button>,
+              <Button id="botonEnvioPassword" key="submit" type="primary" loading={loading} onClick={this.handleOk}>
+                Enviar correo
+              </Button>,
+            ]}>
+            
+            <Form>
+              <Form.Item
+                hasFeedback
+              >
+                {getFieldDecorator('correo', {
+                  rules: [{
+                    type: 'email', message: 'El usuario introducido no es valido!', 
+                  },
+                  {
+                    validator: this.validaCorreo,
+                  }],
+                })(
+                  <Input id="correoEnvioPassword" name="correo" onChange = {this.handleChange} prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Intruduce tu email" />
+                )}
+              </Form.Item>
+              {this.state.errorCorreo ? 
+                <p style={{color: "red"}}>{this.state.errorMessage}!</p>
+                :
+                <p></p>
+              }
+            </Form> 
+          </Modal>
+        
+        </div>
+      </div>
     );
   }
 }

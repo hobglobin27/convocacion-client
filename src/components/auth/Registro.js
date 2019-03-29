@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import 'antd/dist/antd.css';
 import { Form, Input, Button, Icon} from 'antd';
 import AuthService from "../../servicios/auth-service"
@@ -135,65 +135,74 @@ class Registro extends Component {
       return <Redirect to="/" />
 
     return (
-        <Form {...formItemLayout} className="estilo-reg" onSubmit={this.handleSubmit} style={{padding:"1%", marginTop: "5%", marginBottom: "5%"}}>
-          <br/>
-          <Form.Item
-            hasFeedback
-          >
-            {getFieldDecorator('email', {
-              rules: [{
-                type: 'email', message: 'El e-mail introducido no es valido!', 
-              }, {
-                required: true, message: 'Por favor ingresa tu e-mail!'
-              },{
-                validator: this.valida
-              }],
-            })(
-              <Input name="username" onChange = { e => this.handleChange(e)} prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Email"/>
-            )}
-          </Form.Item>
-          <br/>
-          <Form.Item
-          >
-            {getFieldDecorator('password', {
-              rules: [{
-                required: true, message: 'Por favor ingresa tu password!'
-              }, {
-                validator: this.validateToNextPassword,
-              }],
-            })(
-              <Input name="password" type="password" onChange = { e => this.handleChange(e)} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Password"/>
-            )}
-          </Form.Item>
-          <br/>
-          <Form.Item
-          >
-            {getFieldDecorator('confirm', {
-              rules: [{
-                required: true, message: 'Por favor confirma tu password!'
-              }, {
-                validator: this.compareToFirstPassword,
-              }],
-            })(
-              <Input name="confirm" type="password" onBlur ={e => this.handleConfirmBlur(e)} onChange = { e => this.handleChange(e)}prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Confirmar password"/>
-            )}
-          </Form.Item>
-          {this.state.errorMessage ? 
-            <p style={{color: "red"}}>{this.state.errorMessage}!</p>
-            :
-            <p></p>
-          }
-          <br/>
-          <Form.Item {...tailFormItemLayout}>
-            {this.state.confirmDirty && this.state.confirmEmail ?
-              <Button type="primary" htmlType="submit" >Registrate</Button>
-            :
-              <Button type="primary" htmlType="submit" disabled="true">Registrate</Button>}
-          </Form.Item>
-          <p>Ya tienes una cuenta? 
-            <Link to={"/login"} onClick={this.loginSelected}> Ingresa</Link>
-        </p>
-        </Form> 
+      <div className="row">
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" style={{width:"50%"}}>
+          <Form {...formItemLayout} className="estilo-reg" onSubmit={this.handleSubmit} style={{paddingTop:"1%", paddingBottom:"1%", paddingLeft:"5%", paddingRight:"5%", marginLeft:"5%", marginRight:"5%", marginTop: "13%", marginBottom: "13%"}}>
+            <br/>
+            <Form.Item
+              hasFeedback
+            >
+              {getFieldDecorator('email', {
+                rules: [{
+                  type: 'email', message: 'El e-mail introducido no es valido!', 
+                }, {
+                  required: true, message: 'Por favor ingresa tu e-mail!'
+                },{
+                  validator: this.valida
+                }],
+              })(
+                <Input name="username" onChange = { e => this.handleChange(e)} prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Email"/>
+              )}
+            </Form.Item>
+            <br/>
+            <Form.Item
+            >
+              {getFieldDecorator('password', {
+                rules: [{
+                  required: true, message: 'Por favor ingresa tu password!'
+                }, {
+                  validator: this.validateToNextPassword,
+                }],
+              })(
+                <Input name="password" type="password" onChange = { e => this.handleChange(e)} prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Password"/>
+              )}
+            </Form.Item>
+            <br/>
+            <Form.Item
+            >
+              {getFieldDecorator('confirm', {
+                rules: [{
+                  required: true, message: 'Por favor confirma tu password!'
+                }, {
+                  validator: this.compareToFirstPassword,
+                }],
+              })(
+                <Input name="confirm" type="password" onBlur ={e => this.handleConfirmBlur(e)} onChange = { e => this.handleChange(e)}prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Confirmar password"/>
+              )}
+            </Form.Item>
+            {this.state.errorMessage ? 
+              <p style={{color: "red"}}>{this.state.errorMessage}!</p>
+              :
+              <p></p>
+            }
+            <br/>
+            <Form.Item {...tailFormItemLayout}>
+              {this.state.confirmDirty && this.state.confirmEmail ?
+                <Button type="primary" htmlType="submit" >Registrate</Button>
+              :
+                <Button type="primary" htmlType="submit" disabled="true">Registrate</Button>}
+            </Form.Item>
+            <p>Ya tienes una cuenta? 
+              <Link to={"/login"} onClick={this.loginSelected}> Ingresa</Link>
+          </p>
+          </Form>
+        </div>
+        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" style={{width:"50%"}}>
+          <div className="estilo-text-reg">
+            Nuestros niños te necesitan. Gracias por apoyar!
+          </div>
+        </div>
+      </div>
     );
   }
 }

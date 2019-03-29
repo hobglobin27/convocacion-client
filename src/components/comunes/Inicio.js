@@ -43,7 +43,7 @@ class Inicio extends Component{
             <section>
               <br/>
               <div className="container d-flex justify-content-center">
-                <h1 className="barras">Nuestros tutores</h1>
+                <p className="barras">Nuestros tutores</p>
               </div>
               <br/>
               <ListaTutores/>

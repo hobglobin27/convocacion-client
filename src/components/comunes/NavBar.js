@@ -34,7 +34,7 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <Menu style={{fontSize: "110%", marginTop: "0.6%", color: "rgb(236, 228, 223)"}}
+      <Menu style={{fontSize: "100%", marginTop: "0.6%", color: "rgb(236, 228, 223)", textAlign:"right"}}
         onClick={this.handleClick}
         selectedKeys={[this.props.current]}
         mode="horizontal"
