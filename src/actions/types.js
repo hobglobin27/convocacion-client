@@ -13,7 +13,7 @@ export const INITIAL_LOCATION = {
   }
 };
 
-export const INITIAL_MAP_ZOOM_LEVEL = 8;
+export const INITIAL_MAP_ZOOM_LEVEL = 16;
 
 export const ATLANTIC_OCEAN = {
   latitude: 29.532804,

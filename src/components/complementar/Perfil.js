@@ -101,7 +101,7 @@ class Perfil extends Component {
         return;
       }
   
-      this.map.setCenter({
+      map.setCenter({
         lat: ATLANTIC_OCEAN.latitude,
         lng: ATLANTIC_OCEAN.longitude
       });
