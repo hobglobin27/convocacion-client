@@ -186,8 +186,8 @@
   border-radius: 20px;
   background-color: rgb(236, 228, 223);
   min-height: 200px;
-  padding-top: 4%;
-  padding-right: 20%;
+  padding-top: 2%;
+  padding-right: 10%;
   padding-left: 10%;
 }
 
@@ -200,4 +200,8 @@
   margin-left: 5%;
   margin-right: 0%; 
   font-size: 2rem;
+}
+
+#map{
+  height: 30vh;
 }

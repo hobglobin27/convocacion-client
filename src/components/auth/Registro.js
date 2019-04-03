@@ -36,7 +36,6 @@ class Registro extends Component {
 
     service.signup(username, password)
     .then( response => {
-      console.log("Este es el response de signup: ", response.message)
       if(response._id !== undefined && response._id !== null){
         const username = "";
         const password = "";

@@ -20,7 +20,7 @@ class AuthService {
 
   login = (username, password) =>{
     const options = {
-      mode: 'cors',
+      mode: "cors",
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -70,6 +70,16 @@ class AuthService {
     .then( response => response.json() )
     .catch( error => console.log(error) )
   }
+  
+  loggedin = () => {
+    return fetch(process.env.REACT_APP_API_URL + "/loggedin",{
+      mode: 'cors',
+      headers: {
+        "Content-Type": "application/json"
+      }})
+      .then( response => response.json() )
+      .catch( error => console.log(error) )
+  };  
   
 }
 

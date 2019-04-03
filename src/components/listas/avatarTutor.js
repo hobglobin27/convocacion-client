@@ -20,7 +20,7 @@ class AvatarTutor extends Component {
   }
 
   render(){
-
+    console.log(this.props.fotos)
     if(this.state.dentro)
       return(
         <div className="row justify-content-center col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
@@ -29,7 +29,7 @@ class AvatarTutor extends Component {
         )    
     return(
       <div className="row justify-content-center col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-        <Avatar onMouseEnter={this.handleMouseEnter} key={this.props.index} size={200} src={this.props.foto.path} style={{border:"solid rgb(238, 96, 40) 5px"}}/>
+        <Avatar onMouseEnter={this.handleMouseEnter} key={this.props.index} size={200} src={this.props.fotos[0].path} style={{border:"solid rgb(238, 96, 40) 5px"}}/>
       </div>         
     )
   }

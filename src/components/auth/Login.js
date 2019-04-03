@@ -40,16 +40,12 @@ class Login extends Component {
     <div><img src="https://res.cloudinary.com/dbwsjcrfc/image/upload/v1552166212/imagenes/logo2.png"></img></div><br>
     <div>Este es tu nuevo password. Favor de cambiarlo cuando ingreses a la plataforma.</div><br>
     <div>Password: <b>${process.env.REACT_APP_PASSWORD_TEMP}</b></div>`;
-
-    console.log("Este es state error correo: ", this.state.errorCorreo)
     
     authService.recuperaUsuario(email)
     .then( response => {
-      console.log("Entra a response recupera usuario: ", response)
       if(response._id !== undefined && response._id !== null){        
         comunService.sendEmail(email, subject, message)
         .then( response => {
-          console.log("Este es el correo a enviar: ",this.state.correo)
           authService.updatePassword(this.state.correo)
           .then(response => {
             const password = "";
@@ -72,7 +68,6 @@ class Login extends Component {
         }, 3000);
       }
       else{
-        console.log("Entra a else response recupera usuario: ", response)
         this.setState({errorCorreo: true,
           errorMessage: response.message})
       }      
@@ -212,11 +207,11 @@ class Login extends Component {
               <a className="login-form-forgot" onClick={this.showModal} href="#">Olvidaste tu password?</a>
               {this.state.confirmDirty && this.state.confirmUser ?
                 <Button type="primary" htmlType="submit" className="login-form-button" style={{width:"100%"}}>
-                  Log in
+                  Ingresa
                 </Button>
               :
                 <Button type="primary" htmlType="submit" className="login-form-button" style={{width:"100%"}} disabled={true}>
-                  Log in
+                  Ingresa
                 </Button>}
               No tienes cuenta?<Link to={"/registro"} onClick={this.registroSelected}> Registrate!</Link>
             </Form.Item>
