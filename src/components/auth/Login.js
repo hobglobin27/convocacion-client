@@ -159,7 +159,7 @@ class Login extends Component {
     const { visible, loading } = this.state;
 
     if(this.props.loggedIn)
-      return <Redirect to="/perfil" />
+      return <Redirect to="/homepage" />
 
     return (
       <div className="row">          

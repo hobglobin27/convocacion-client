@@ -13,6 +13,7 @@ import NavBar from './components/comunes/NavBar'
 import Perfil from './components/complementar/Perfil'
 import Login from './components/auth/Login'
 import Registro from './components/auth/Registro'
+import HomePage from './components/comunes/HomePage'
 
 //Imports estilos
 import './components/estilos/styles.css';
@@ -47,7 +48,10 @@ class App extends Component {
                 </div>
                 <div className=''>
                   <Route exact path="/perfil" component={PerfilForm} />
-                </div>        
+                </div>
+                <div className=''>
+                  <Route exact path="/homepage" component={HomePage} />
+                </div> 
               </div>                     
             </Switch> 
           </Content>    

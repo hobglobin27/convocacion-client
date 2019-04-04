@@ -15,7 +15,8 @@ let arrayFile =[];
 const props = {
   name: 'picture',
   multiple: false,
-  action: ""
+  action: "",
+  showUploadList:true
 };
 
 const steps = [{
@@ -55,13 +56,17 @@ class Perfil extends Component {
     previewVisible: false,
     previewImage: '',
     fileList: [],
-    inmueble:""
+    inmueble:"",
+    isGeocodingError: false,
+    foundAddress: INITIAL_LOCATION.address,
+    showUploadList: true
   };
 
 
   componentDidMount(){
     //props.action = `http://localhost:3001/api/upload/pictures/add/user/${this.props.loggedIn._id}`;
-    props.action = `http://localhost:3001/api/upload/pictures/add/user/5c99202d69d07315f42517da`;      
+    if(arrayFile.length < 3)
+      props.action = `http://localhost:3001/api/upload/pictures/add/user/5c99202d69d07315f42517da`;      
   }  
 
   renderMap = () => {
@@ -94,12 +99,22 @@ class Perfil extends Component {
     this.geocoder.geocode({ 'address': address }, function handleResults(results, status) {
   
       if (status === window.google.maps.GeocoderStatus.OK) {
+
+        this.setState({
+          foundAddress: results[0].formatted_address,
+          isGeocodingError: false
+        })
   
         map.setCenter(results[0].geometry.location);
         this.marker.setPosition(results[0].geometry.location);
   
         return;
       }
+
+      this.setState({
+        foundAddress: null,
+        isGeocodingError: true
+      })
   
       map.setCenter({
         lat: ATLANTIC_OCEAN.latitude,
@@ -138,10 +153,24 @@ class Perfil extends Component {
 
   handleChangeImage = (info) => {
     const status = info.file.status;
+    props.showUploadList=true;
+    this.setState({showUploadList: props.showUploadList});
+    if(arrayFile.length > 1){
+      props.action="";
+    }
 
     if (status !== 'uploading') {
       console.log(info.file, info.fileList);
+      props.showUploadList=false;
+      this.setState({showUploadList: props.showUploadList});
     }
+
+    if (status === 'uploading') {
+      console.log(info.file, info.fileList); 
+      props.showUploadList=true;
+      this.setState({showUploadList: props.showUploadList});    
+    }
+
     if (status === 'done') {
       message.success(`${info.file.name} file uploaded successfully.`);
       arrayFile.push({ uid: info.file.uid,
@@ -150,9 +179,13 @@ class Perfil extends Component {
                         url: info.file.response.pictureUrl});
                         
       this.setState({fileList: arrayFile})
+      props.showUploadList=false;
+      this.setState({showUploadList: props.showUploadList});
       
     } else if (status === 'error') {
       message.error(`${info.file.name} file upload failed.`);
+      props.showUploadList=false;
+      this.setState({showUploadList: props.showUploadList});
     }
   }
 
@@ -171,6 +204,10 @@ class Perfil extends Component {
     this.setState({fileList: arrayFile})
     //comunService.remueveImagen(file,this.props.loggedIn._id);
     comunService.remueveImagen(file,"5c99202d69d07315f42517da");
+    if(arrayFile.length < 3){
+      //props.action = `http://localhost:3001/api/upload/pictures/add/user/${this.props.loggedIn._id}`;
+      props.action = `http://localhost:3001/api/upload/pictures/add/user/5c99202d69d07315f42517da`;
+    }
   }
 
   handleClick = (event) => {
@@ -395,8 +432,14 @@ class Perfil extends Component {
                               <Button onClick={e => this.handleClick(e)} type="primary" icon="search" style={{marginTop:"4px"}}>Buscar</Button>
                             </div>
                           </div>
-                          <div className="col-sm-12">
-                            <Alert message="Ciudad de México, México" type="success" showIcon />
+                          <div className="col-sm-12">                            
+                            {
+                              this.state.isGeocodingError 
+                              ? 
+                              <Alert message="Adress not Found" type="error" showIcon />
+                              :
+                              <Alert message={this.state.foundAddress} type="success" showIcon />
+                            }                            
                             <br/>
                             <div id="map"></div>
                             <br/>
