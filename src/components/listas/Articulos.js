@@ -33,7 +33,7 @@ class Articulos extends Component {
   render(){
     return(
       <div>
-        <h3>{this.state.titulo}</h3>
+        <h3>Articulos {this.state.titulo}</h3>
       </div>     
     )
   }
