@@ -3,10 +3,12 @@ import currentMenuReducer from "./current-menu-reducer";
 import listaTutoresReducer from "./lista-tutores-reducer";
 import countTutoresReducer from "./count-tutores-reducer";
 import getUserReducer from "./get-user-reducer"
+import materiasReducer from "./materias-reducer"
 
 export default combineReducers({
 	current: currentMenuReducer,
 	tutores: listaTutoresReducer,
 	counttutores: countTutoresReducer,
-	loggedIn: getUserReducer
+	loggedIn: getUserReducer,
+	materias: materiasReducer
 });

@@ -124,6 +124,7 @@ class Login extends Component {
     .then( response => {     
       if(response._id !== undefined && response._id !== null){
         this.props.getUser(response);
+        this.props.getListaMaterias();
         const username = "";
         const password = "";
         this.setState({username,password});
