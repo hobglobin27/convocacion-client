@@ -1,10 +1,11 @@
-import React, {Component, Fragment, Link} from 'react';
+import React, {Component, Fragment} from 'react';
+import { Redirect } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import { Steps, Button, message, Input, Form, Icon, Radio, Upload, Modal, Alert, List, AutoComplete } from 'antd';
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import ComunService from "../../servicios/comun-service"
-import {INITIAL_LOCATION, INITIAL_MAP_ZOOM_LEVEL, ATLANTIC_OCEAN} from "../../actions/types"
+import {INITIAL_LOCATION, INITIAL_MAP_ZOOM_LEVEL, ATLANTIC_OCEAN, CURRENT_HOME} from "../../actions/types"
 
 const comunService = new ComunService();
 const Step = Steps.Step;
@@ -55,7 +56,7 @@ class Perfil extends Component {
     notificacionEmail: "",
     tipoUsuario: "",
     materias: [],
-    direccionBusqueda: "Ciudad de México, México",
+    direccionBusqueda: "",
     direccion: "",
     previewVisible: false,
     previewImage: '',
@@ -65,9 +66,14 @@ class Perfil extends Component {
     foundAddress: INITIAL_LOCATION.address,
     showUploadList: true,
     data: [],
+    dataGrupo: [],
     disabledAgregar: true,
+    disabledAgregarGrupo: true,
     materia:"",
-    existeMateria:false
+    existeMateria:false,
+    grupoLider:"",
+    inputGrupo: "",
+    grabado: false
   };
 
   componentWillMount(){
@@ -123,7 +129,8 @@ class Perfil extends Component {
 
       this.setState({
         foundAddress: null,
-        isGeocodingError: true
+        isGeocodingError: true,
+        direccion: ""
       })
   
       map.setCenter({
@@ -155,13 +162,96 @@ class Perfil extends Component {
     }
   }
 
+  grabaPerfil = () => {
+    let errores = [];
+    let camposOK = true;
+    
+    if(this.state.nombre === ""){
+      errores.push("Nombre")
+      camposOK = false;
+    }
+
+    if(this.state.paterno === ""){
+      errores.push("Apellido Paterno")
+      camposOK = false;
+    }
+    if(this.state.materno === ""){
+      errores.push("Apellido Materno")
+      camposOK = false;
+    }
+    if(this.state.genero === ""){
+      errores.push("Genero")
+      camposOK = false;
+    }
+    if(this.state.fotos.length === 0){
+      errores.push("Fotos")
+      camposOK = false;
+    }
+    if(this.state.notificacionEmail === ""){
+      errores.push("Notificaciones por correo")
+      camposOK = false;
+    }
+    if(this.state.tipoUsuario === ""){
+      errores.push("Rol en ConVocacion")
+      camposOK = false;
+    }
+    if(this.state.materias.length === 0 && 
+      this.state.tipoUsuario !== "" && 
+      this.state.tipoUsuario === "T"){
+      errores.push("Materias a impartir")
+      camposOK = false;
+    }
+    if(this.state.inmueble === "S" && this.state.direccion === ""){
+      errores.push("Direccion inmueble")
+      camposOK = false;
+    }
+    if(this.state.inmueble === ""){
+      errores.push("Cuenta con inmueble?")
+      camposOK = false;
+    }
+    if(this.state.dataGrupo.length === 0 && 
+      this.state.tipoUsuario !== "" && 
+      this.state.tipoUsuario === "L" &&
+      this.state.grupoLider === "S"){
+      errores.push("Dar de alta grupo")
+      camposOK = false;
+    }
+    if(this.state.grupoLider === "" &&
+    this.state.tipoUsuario !== "" && 
+    this.state.tipoUsuario === "L"){
+      errores.push("Cuenta con un grupo?")
+      camposOK = false;
+    }
+
+    if(camposOK){
+      this.success()
+      
+    } 
+    else{
+      console.log("estos son los errores: ", errores)
+    }
+  }
+
+  success = () => {
+    message.loading('Action in progress..', 4)
+      .then(() => message.success('La información se ha grabado correctamente', 2.5))
+      .then(() => this.setState({grabado: true}));
+  };
+  
+
   handleChange = (event) => {
     const {name, value} = event.target;
     this.setState({[name]: value});
     if(event.target.name==="inmueble"){
       this.renderMap();
     }
- 
+    
+    if(event.target.name==="inputGrupo"){
+      if(event.target.value!=="")
+        this.setState({disabledAgregarGrupo: false})
+      else
+        this.setState({disabledAgregarGrupo: true})
+    } 
   }
 
   handleChangeImage = (info) => {
@@ -224,6 +314,7 @@ class Perfil extends Component {
     arrayFile=afterRemove;
     arrayFotos=afterRemoveFotos;
     this.setState({fileList: arrayFile})
+    this.setState({fotos: arrayFotos})
     if(arrayFile.length < 3){
       props.action = `http://localhost:3001/api/upload/pictures`;
     }
@@ -250,13 +341,20 @@ class Perfil extends Component {
         datosLista.push(this.state.materia)
         this.setState({data: datosLista})
         this.setState({disabledAgregar: true});
-        let arregloIdMaterias = this.state.materias;
-        let materia = this.props.materias.filter(elemento => elemento.descripcion===this.state.materia);
-        if(materia)  
-          arregloIdMaterias.push(materia[0]._id)
-        this.setState({materias: arregloIdMaterias});
+        this.setState({materias: datosLista});
       }        
     }
+  }
+
+  handleClickGuardaGrupo = (event) => {    
+    let datosLista = this.state.dataGrupo;
+    if(!datosLista.find(elemento => elemento === this.state.inputGrupo)){
+      datosLista.push(this.state.inputGrupo)
+      this.setState({dataGrupo: datosLista})
+      this.setState({disabledAgregarGrupo: true});
+      this.setState({inputGrupo:""})
+      this.props.form.resetFields(["inputGrupo"]);
+    }    
   }
 
   handleChangeAutoCom = (event) => {
@@ -266,11 +364,12 @@ class Perfil extends Component {
   handleClikDeleteLista = (event, item) => {
     let deleteArray = this.state.data.filter(elemento => elemento !==item )
     this.setState({data: deleteArray})
-    let arregloIdMaterias = [];
-    let materia = this.props.materias.filter(elemento => elemento.descripcion===item);
-    if(materia)  
-      arregloIdMaterias = this.state.materias.filter(elemento => elemento !== materia[0]._id )
-    this.setState({materias: arregloIdMaterias});
+    this.setState({materias: deleteArray});
+  }
+
+  handleClikDeleteListaGrupo = (event, item) => {
+    let deleteArray = this.state.dataGrupo.filter(elemento => elemento !==item )
+    this.setState({dataGrupo: deleteArray})
   }
 
   loadJS = (src) => {
@@ -284,8 +383,12 @@ class Perfil extends Component {
   render() {
     const { current } = this.state;
     const { getFieldDecorator } = this.props.form;
+    const { previewVisible, previewImage, fileList } = this.state;
 
-    const { previewVisible, previewImage, fileList } = this.state;    
+    if(this.state.grabado){
+      this.props.setCurrentNav(CURRENT_HOME);
+      return <Redirect to="/homepage" />
+    }
 
     return (
       <div className="container">
@@ -372,7 +475,7 @@ class Perfil extends Component {
               <div className="d-flex flex-wrap">
                 <div className="row align-items-center col-12">
                   <div className="col-lg-5 col-md-5 col-sm-12 col-12">
-                  <span><span style={{color:"red"}}>*</span> Género:</span>
+                    <span><span style={{color:"red"}}>*</span> Género:</span>
                   </div>
                   <div className="col-lg-7 col-md-7 col-sm-12 col-12">
                   <RadioGroup name="genero" onChange={this.handleChange} value={this.state.genero}>
@@ -390,7 +493,10 @@ class Perfil extends Component {
                 <div className="d-flex flex-wrap justify-content-start">
                   <div className="row col-12">
                     <div className="col-lg-6 col-md-6 col-sm-12 col-12">
-                      <div>
+                      <div className="col-12">
+                        <span><span style={{color:"red"}}>*</span> Debes subir al menos una foto:</span>
+                      </div>
+                      <div style={{marginBottom:"20px"}}>
                         <Dragger {...props} onChange = { e => this.handleChangeImage(e)}>
                           <p className="ant-upload-drag-icon">
                             <Icon type="inbox" />
@@ -399,13 +505,11 @@ class Perfil extends Component {
                           <p className="ant-upload-hint">Solo puedes subir 3 imagenes como maximo. La primera de ellas es la que sera utilizada en tu perfil.</p>
                         </Dragger>
                       </div>
-                      <br/>
                       <span><span style={{color:"red"}}>*</span> Notificacion por correo?:</span>
                       <RadioGroup name="notificacionEmail" onChange={this.handleChange} value={this.state.notificacionEmail} style={{paddingLeft: "5%"}}>
                         <Radio value={"S"}>Si</Radio>
                         <Radio value={"N"}>No</Radio>
                       </RadioGroup>
-                      <br/>
                     </div> 
                     <div className="col-lg-6 col-md-6 col-sm-12 col-12">
                       <div className="clearfix row align-items-center col-12">
@@ -476,7 +580,7 @@ class Perfil extends Component {
                             <div className="col-lg-8 col-md-8 col-sm-12 col-12">
                               <Form.Item
                                 >
-                                  {getFieldDecorator('materno', {
+                                  {getFieldDecorator('direccionBusqueda', {
                                     initialValue: `${this.state.direccionBusqueda}`,
                                     rules: [{message: 'Por favor ingresa la direccion!' }],
                                   })(
@@ -492,17 +596,16 @@ class Perfil extends Component {
                             {
                               this.state.isGeocodingError 
                               ? 
-                              <Alert message="Adress not Found" type="error" showIcon />
+                              <Alert message="No se encontro la dirección" type="error" showIcon style={{marginBottom:"10px"}} />
                               :
-                              <Alert message={this.state.foundAddress} type="success" showIcon />
-                            }                            
-                            <br/>
+                              <Alert message={this.state.foundAddress} type="success" showIcon style={{marginBottom:"10px"}} />
+                            }
                             <div id="map"></div>                            
                           </div>
                         </Fragment>
                         :
                         <Fragment>
-                          <div className="row col-12" style={{height:"18vw"}}>
+                          <div className="row col-12" style={{height:"18vw", marginBottom:"10px"}}>
                           </div>                          
                         </Fragment>
                     }                    
@@ -513,7 +616,7 @@ class Perfil extends Component {
                   {
                     this.state.tipoUsuario === "" ?
                       <Fragment>
-                        <div>
+                        <div style={{marginBottom:"15px"}}>
                           <br/><br/>
                           <p style={{fontSize:"3vw"}}>
                             Aun no has informado tu rol en convocacion. Selecciona uno!!!
@@ -529,6 +632,9 @@ class Perfil extends Component {
                           <div className="d-flex flex-wrap justify-content-start">
                             <div className="row col-12">
                               <div className=" row col-12">
+                                <div className="col-lg-8 col-md-8 col-sm-12 col-12">
+                                  <span><span style={{color:"red"}}>*</span> Selecciona las materias que puedes impartir.</span>
+                                </div>
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-12">
                                   <AutoComplete
                                     id="autoCompMateria"
@@ -574,7 +680,65 @@ class Perfil extends Component {
                         </Fragment>
                         :
                         <Fragment>
-                          Hola Lider
+                          <div className="d-flex flex-wrap justify-content-start">
+                            <div className="row align-items-center col-12">
+                              <div className="col-lg-8 col-md-8 col-sm-12 col-12">
+                                <span><span style={{color:"red"}}>*</span> ¿Ya tienes algun grupo formado o en mente?</span>
+                              </div>
+                              <div className="col-lg-4 col-md-4 col-sm-12 col-12">
+                                <RadioGroup name="grupoLider" onChange={this.handleChange} value={this.state.grupoLider} style={{paddingLeft: "0%"}}>
+                                  <Radio value={"S"}>Si</Radio>
+                                  <Radio value={"N"}>No</Radio>
+                                </RadioGroup>
+                              </div>
+                            </div>                    
+                            {
+                              this.state.grupoLider === "S" ?
+                                <Fragment>                          
+                                  <div className="row col-12"> 
+                                    <div className="col-lg-2 col-md-3 col-sm-12 col-12">
+                                      <p style={{paddingBottom:"10%"}}> Introduce Grupo</p>
+                                    </div>                     
+                                    <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+                                      <Form.Item
+                                      hasFeedback
+                                      rese                            
+                                        >
+                                          {getFieldDecorator('inputGrupo', {
+                                            initialValue: `${this.state.inputGrupo}`,
+                                            rules: [{message: 'Por favor ingresa nombre de grupo!' }],
+                                          })(
+                                            <Input name="inputGrupo" onChange = { e => this.handleChange(e)} prefix={<Icon type="usergroup-add" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Introduzca nombre de grupo" />
+                                        )}
+                                      </Form.Item>                    
+                                    </div>
+                                    <div className="col-lg-3 col-md-3 col-sm-12 col-12">
+                                      {
+                                        this.state.disabledAgregarGrupo ?
+                                          <Button id="botonAgregarGrupo" onClick={e => this.handleClickGuardaGrupo(e)} type="primary" icon="check" style={{marginTop:"4px"}} disabled={true}>Agregar</Button>
+                                          :
+                                          <Button id="botonAgregarGrupo" onClick={e => this.handleClickGuardaGrupo(e)} type="primary" icon="check" style={{marginTop:"4px"}} disabled={false}>Agregar</Button>
+                                      }
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <List
+                                      size="small"
+                                      header={<div>Grupos del Lider</div>}
+                                      footer={<div style={{fontSize:"12px"}}>* Los integrantes de grupo los podras dar de alta desde tu pagina de inicio</div>}
+                                      bordered
+                                      dataSource={this.state.dataGrupo}
+                                      renderItem={item => (<List.Item actions={[<Icon name={item} type="delete" onClick={e => this.handleClikDeleteListaGrupo(e, item)}></Icon>]}>{item} </List.Item>)}
+                                    />                                
+                                  </div>
+                                </Fragment>
+                                :
+                                <Fragment>
+                                  <div className="row col-12" style={{height:"18vw"}}>
+                                  </div>                          
+                                </Fragment>
+                            }                    
+                          </div>
                         </Fragment> 
                       }                      
                     </Fragment>                    
@@ -600,10 +764,41 @@ class Perfil extends Component {
           }
           {
             current === steps.length - 1
-            && <Button type="primary" onClick={() => message.success('Processing complete!')}>Guardar</Button>
+            && <Button type="primary" onClick={() => this.grabaPerfil()}>Guardar</Button>
           }
         </div>
         <br/>
+        {this.state.current === 3 && this.state.data.length ===1 && this.state.tipoUsuario === "T" ?
+          <Fragment>
+            <br/><br/><br/><br/>
+          </Fragment>  
+          :   
+          <Fragment>     
+            {this.state.current === 3 && this.state.data.length ===2 && this.state.tipoUsuario === "T" ?
+              <Fragment>
+              <br/><br/>
+            </Fragment> 
+              :
+              <Fragment>     
+                {this.state.current === 3 && this.state.dataGrupo.length ===1 && this.state.tipoUsuario === "L" ?
+                  <Fragment>
+                  <br/><br/><br/>
+                </Fragment> 
+                  :
+                  <Fragment>     
+                    {this.state.current === 3 && this.state.dataGrupo.length ===2 && this.state.tipoUsuario === "L" ?
+                      <Fragment>
+                      <br/>
+                    </Fragment> 
+                      :
+                      <div></div>
+                    }
+                  </Fragment>
+                }
+              </Fragment>
+            }
+          </Fragment>
+        } 
       </div>
     );
   }

@@ -21,7 +21,24 @@ import '../estilos/styles.css'
 
 import { connect } from "react-redux";
 import * as actions from "../../actions";
-import { CURRENT_REGISTRO, CURRENT_LOGIN } from '../../actions/types';
+import { CURRENT_REGISTRO, 
+        CURRENT_LOGIN,
+        CURRENT_TUTOR,
+        CURRENT_LIDER_GRUPO,
+        CURRENT_HELP,
+        CURRENT_COMPLETA_PERFIL,
+        CURRENT_CAMBIA_CONTRASENA_PERFIL,
+        CURRENT_SALIR_PERFIL,
+        CURRENT_AVATAR_TUTOR,
+        CURRENT_ASIGNACIONES,
+        CURRENT_ARTICULOS_TUTOR,
+        CURRENT_CAMBIA_CONTRASENA_TUTOR,
+        CURRENT_SALIR_TUTOR,
+        CURRENT_AVATAR_LIDER,
+        CURRENT_GRUPOS,
+        CURRENT_ARTICULOS_LIDER,
+        CURRENT_CAMBIA_CONTRASENA_LIDER,
+        CURRENT_SALIR_LIDER } from '../../actions/types';
 
 class NavBar extends Component {
 
@@ -31,6 +48,38 @@ class NavBar extends Component {
       this.props.setCurrentNav(CURRENT_REGISTRO);
     if(e.key === "sign-in")
       this.props.setCurrentNav(CURRENT_LOGIN);
+    if(e.key === "tutor")
+      this.props.setCurrentNav(CURRENT_TUTOR);
+    if(e.key === "lider-grupo")
+      this.props.setCurrentNav(CURRENT_LIDER_GRUPO);
+    if(e.key === "help")
+      this.props.setCurrentNav(CURRENT_HELP);
+    if(e.key === "completa-perfil")
+      this.props.setCurrentNav(CURRENT_COMPLETA_PERFIL);
+    if(e.key === "cambia-contrasena-perfil")
+      this.props.setCurrentNav(CURRENT_CAMBIA_CONTRASENA_PERFIL);
+    if(e.key === "salir-perfil")
+      this.props.setCurrentNav(CURRENT_SALIR_PERFIL);
+    if(e.key === "avatar-tutor")
+      this.props.setCurrentNav(CURRENT_AVATAR_TUTOR);
+    if(e.key === "asignaciones")
+      this.props.setCurrentNav(CURRENT_ASIGNACIONES);
+    if(e.key === "articulos-tutor")
+      this.props.setCurrentNav(CURRENT_ARTICULOS_TUTOR);
+    if(e.key === "cambia-contrasena-tutor")
+      this.props.setCurrentNav(CURRENT_CAMBIA_CONTRASENA_TUTOR);
+    if(e.key === "salir-tutor")
+      this.props.setCurrentNav(CURRENT_SALIR_TUTOR);
+    if(e.key === "avatar-lider")
+      this.props.setCurrentNav(CURRENT_AVATAR_LIDER);
+    if(e.key === "grupos")
+      this.props.setCurrentNav(CURRENT_GRUPOS);
+    if(e.key === "articulos-lider")
+      this.props.setCurrentNav(CURRENT_ARTICULOS_LIDER);
+    if(e.key === "cambia-contrasena-lider")
+      this.props.setCurrentNav(CURRENT_CAMBIA_CONTRASENA_LIDER);
+    if(e.key === "salir-lider")
+      this.props.setCurrentNav(CURRENT_SALIR_LIDER);
   }
 
   componentDidUpdate(){

@@ -1,10 +1,10 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { Form, Icon, Input, Button, Modal } from 'antd';
+import { Form, Icon, Input, Button, Modal, message } from 'antd';
 import 'antd/dist/antd.css';
 import { connect } from "react-redux";
 import * as actions from "../../actions";
-import {CURRENT_REGISTRO} from "../../actions/types"
+import {CURRENT_REGISTRO, CURRENT_COMPLETA_PERFIL} from "../../actions/types"
 import AuthService from "../../servicios/auth-service"
 import ComunService from "../../servicios/comun-service"
 
@@ -24,8 +24,13 @@ class Login extends Component {
     correo: "",
     errorLogin: false,
     errorCorreo: false,
-    errorMessage: ""  
+    errorMessage: "",
+    correoSuccess: false 
   };
+
+  componentWillMount(){
+    this.props.getListaMaterias();    
+  }
 
   showModal = () => {   
     this.setState({
@@ -66,6 +71,7 @@ class Login extends Component {
         setTimeout(() => {
           this.setState({ loading: false, visible: false });
         }, 3000);
+        this.setState({correoSuccess: true});
       }
       else{
         this.setState({errorCorreo: true,
@@ -124,7 +130,6 @@ class Login extends Component {
     .then( response => {     
       if(response._id !== undefined && response._id !== null){
         this.props.getUser(response);
-        this.props.getListaMaterias();
         const username = "";
         const password = "";
         this.setState({username,password});
@@ -159,8 +164,18 @@ class Login extends Component {
     const { getFieldDecorator } = this.props.form;
     const { visible, loading } = this.state;
 
-    if(this.props.loggedIn)
+    if(this.props.loggedIn && this.props.loggedIn.tipoUsuario !== undefined &&
+      this.props.loggedIn.tipoUsuario !== "")
       return <Redirect to="/homepage" />
+    if(this.props.loggedIn && this.props.loggedIn.tipoUsuario === undefined){
+      this.props.setCurrentNav(CURRENT_COMPLETA_PERFIL);
+      return <Redirect to="/perfil" />
+    }
+
+    if(this.state.correoSuccess){
+      message.success('El correo se ha enviado correctamente', 3);
+      this.setState({correoSuccess: false})
+    }
 
     return (
       <div className="row">          

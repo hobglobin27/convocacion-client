@@ -1,11 +1,11 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import 'antd/dist/antd.css';
 import { Form, Input, Button, Icon} from 'antd';
 import AuthService from "../../servicios/auth-service"
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import * as actions from "../../actions";
-import {CURRENT_LOGIN} from "../../actions/types"
+import {CURRENT_LOGIN, CURRENT_COMPLETA_PERFIL} from "../../actions/types"
 
 const service = new AuthService();
 
@@ -19,6 +19,10 @@ class Registro extends Component {
     errorSignup: false,
     errorMessage: ""
   };
+
+  componentWillMount(){
+    this.props.getListaMaterias();
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -130,8 +134,13 @@ class Registro extends Component {
       },
     };
 
-    if(this.props.loggedIn)
-      return <Redirect to="/" />
+    if(this.props.loggedIn && this.props.loggedIn.tipoUsuario !== undefined &&
+      this.props.loggedIn.tipoUsuario !== "")
+      return <Redirect to="/homepage" />
+    if(this.props.loggedIn && this.props.loggedIn.tipoUsuario === undefined){
+      this.props.setCurrentNav(CURRENT_COMPLETA_PERFIL);
+      return <Redirect to="/perfil" />
+    }
 
     return (
       <div className="row">
