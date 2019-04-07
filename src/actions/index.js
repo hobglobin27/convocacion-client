@@ -11,50 +11,65 @@ export const setCurrentNav = accion => dispatch => dispatch({ type: accion});
 
 export const getUser = response => dispatch => dispatch({ type: GET_USER, payload: response});
 
-export const getListaTutores = (tipoBusqueda, materia, direccion) => async dispatch => {
-  let response;
-  let results;
-  switch(tipoBusqueda){
+export const getListaTutores = (tipoAccion, materia, direccion) => async dispatch => {
+  let response="";
+  let results=[];
+  switch(tipoAccion){
     case GET_TOP_TUTORES:
       response = await fetch(process.env.REACT_APP_API_URL + "/toptutores",{
-        mode: 'cors',
-        headers: {
-          "Content-Type": "application/json"
-        }});
+      mode: 'cors',
+      headers: {
+        "Content-Type": "application/json"
+      }});
       results = await response.json();
-      dispatch({ type: tipoBusqueda, payload: results });
+      dispatch({ type: GET_TOP_TUTORES, payload: results }); 
     break;
     case GET_MATERIAS_TUTOR:
       response = await fetch(process.env.REACT_APP_API_URL + `/buscatutores/materia?materia=${materia}`,{
-        mode: 'cors',
-        headers: {
-          "Content-Type": "application/json"
-        }});
+      mode: 'cors',
+      headers: {
+        "Content-Type": "application/json"
+      }});
       results = await response.json();
-      dispatch({ type: tipoBusqueda, payload: results });
+      dispatch({ type: GET_MATERIAS_TUTOR, payload: results });
     break;
     case GET_DIRECCION_TUTOR:
       response = await fetch(process.env.REACT_APP_API_URL + `/buscatutores/direccion?direccion=${direccion}`,{
-        mode: 'cors',
-        headers: {
-          "Content-Type": "application/json"
-        }});
+      mode: 'cors',
+      headers: {
+        "Content-Type": "application/json"
+      }});
       results = await response.json();
-      dispatch({ type: tipoBusqueda, payload: results });
+      dispatch({ type: GET_MATERIAS_TUTOR, payload: results });
     break;
     case GET_MATERIA_DIRECCION_TUTOR:
-      response = await fetch(process.env.REACT_APP_API_URL + `/buscatutores/direccionmateria?materia=${materia}&direccion=${direccion}`,{
+      response = await fetch(process.env.REACT_APP_API_URL + `/buscatutores/direccionmateria?direccion=${direccion}&materia=${materia}`,{
+      mode: 'cors',
+      headers: {
+        "Content-Type": "application/json"
+      }});
+      results = await response.json();
+      dispatch({ type: GET_MATERIAS_TUTOR, payload: results });
+    break;
+    default:
+      break;
+        }
+};
+
+
+export const getListaTutoresMateria = (materia) => async dispatch => {  
+  const response = await fetch(process.env.REACT_APP_API_URL + `/buscatutores/materia?materia=${materia}`,{
         mode: 'cors',
         headers: {
           "Content-Type": "application/json"
         }});
-      results = await response.json();
-      dispatch({ type: tipoBusqueda, payload: results });
-    break;
-    default:
-    break;
-  }
+        console.log("Entra tutores materias")
+  const results = await response.json();
+      console.log("Este es result: ", results)
+      dispatch({ type: GET_MATERIAS_TUTOR, payload: results });   
 };
+
+
 
 export const getCountTutores = () => async dispatch => {
 	const response = await fetch(process.env.REACT_APP_API_URL + "/totaltutores",{

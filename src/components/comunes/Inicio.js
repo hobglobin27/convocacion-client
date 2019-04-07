@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import ReactPlayer from 'react-player'
 import { connect } from "react-redux";
 import * as actions from "../../actions";
-import { CURRENT_HOME } from "../../actions/types"
+import { CURRENT_HOME, GET_TOP_TUTORES, GET_MATERIAS_TUTOR, GET_DIRECCION_TUTOR, GET_MATERIA_DIRECCION_TUTOR } from "../../actions/types";
 import '../estilos/styles.css';
 import { Button, AutoComplete } from 'antd';
-import ListaTutores from "../listas/listaTutores"
+import ListaTutores from "../listas/listaTutores";
 
 let dataSourceMaterias = [];
 let dataSourceDirecciones = [];
@@ -24,7 +24,8 @@ class Inicio extends Component{
     this.props.getCountTutores();
     this.props.getListaMaterias();
     this.props.getListaDireccionesAlternas();
-    this.homeSelected();    
+    this.homeSelected();
+    this.props.getListaTutores(GET_TOP_TUTORES);
   }
 
   handleSelectAutoComMateria = (event) => {
@@ -38,33 +39,30 @@ class Inicio extends Component{
   }
 
   handleChangeAutoComMateria = (event) => {
+    if(event === "")
+      this.setState({existeMateria: false})
+    else
+      this.setState({existeMateria: true})
+    
     this.setState({materia: event})
   }
 
   handleChangeAutoComDireccion = (event) => {
+    if(event === "")
+      this.setState({existeDireccion: false})
+    else
+      this.setState({existeDireccion: false})
+
     this.setState({direccion: event})
   }
 
   handleClickBuscar = (event) => {
-    let existeMateria = dataSourceMaterias.find(elemento => elemento === this.state.materia)
-    if(existeMateria === undefined){
-      this.setState({existeMateria: false})
-    }
-
-    let existeDireccion = dataSourceDirecciones.find(elemento => elemento === this.state.direccion)
-    if(existeDireccion === undefined){
-      this.setState({existeDireccion: false})
-    }
-
-    /*if(existeMateria !== undefined || existeDireccion !== undefined){
-      let datosLista = this.state.data;
-      if(!datosLista.find(elemento => elemento === this.state.materia)){
-        datosLista.push(this.state.materia)
-        this.setState({data: datosLista})
-        this.setState({disabledAgregar: true});
-        this.setState({materias: datosLista});
-      }        
+    /*if(this.state.materias !== "" || this.state.direccion !== ""){
+      if(this.state.direccion !== "" && this.state.materia === ""){
+        this.props.getListaTutores(GET_DIRECCION_TUTOR, "",this.state.direccion);
+      }
     }*/
+    this.props.getListaTutores(GET_DIRECCION_TUTOR, this.state.materia, this.state.direccion);
   }
 
   homeSelected = () => this.props.setCurrentNav(CURRENT_HOME);
@@ -118,24 +116,18 @@ class Inicio extends Component{
                     :
                       <div></div>
                   }
-                  <div className="col-lg-2 col-md-2 col-sm-12 col-12">                  
-                    {
-                      this.state.disabledAgregar ?
-                        <Button id="botonBuscar" size="large" onClick={e => this.handleClickBuscar(e)} type="primary" icon="search" disabled={true}>Buscar</Button>
-                        :
-                        <Button id="botonBuscar" size="large" onClick={e => this.handleClickBuscar(e)} type="primary" icon="search" disabled={false}>Buscar</Button>
-                    }
-                  </div>
-                  {
-                    !this.state.existeMateria && this.state.materia !== "" ?
-                      <div className="col-lg-4 col-md-4 col-sm-12 col-12">
-                        <p style={{color:"red"}}>La materia no existe en el catalogo!</p>
+                  <div className="col-lg-2 col-md-2 col-sm-12 col-12">              
+                    <Button id="botonBuscar" size="large" onClick={e => this.handleClickBuscar(e)} type="primary" icon="search">Buscar</Button>
+                  </div>                               
+                </div>
+                {
+                    !this.state.existeMateria  && !this.state.existeDireccion ?
+                      <div className="col-lg-12 col-md-12 col-sm-12 col-12">
+                        <p style={{color:"red"}}>Debes informar al menos una de las dos opciones de busqueda!</p>
                       </div>
                     :
                       <div></div>
-                  }               
-                </div>
-                
+                  }                 
               <br/><br/>
             </div>      
           </div>          
