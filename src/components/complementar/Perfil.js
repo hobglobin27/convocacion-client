@@ -11,10 +11,12 @@ const comunService = new ComunService();
 const Step = Steps.Step;
 const RadioGroup = Radio.Group;
 const Dragger = Upload.Dragger;
-let arrayFile=[];
+let arrayFileFotos=[];
 let map="";
 let arrayFotos=[];
-let dataSource = [];
+let dataSourceMaterias = [];
+let errores = [];
+let direccionesAlternas = [];
 
 const props = {
   name: 'picture',
@@ -45,12 +47,7 @@ class Perfil extends Component {
     paterno: "",
     materno: "",
     genero: "",
-    fotos: [{
-      uid: "",
-      nombre: "",
-      path: "",
-      originalNombre: ""
-    }],
+    fotos: [],
     hangouts: "",
     skype: "",
     notificacionEmail: "",
@@ -73,17 +70,35 @@ class Perfil extends Component {
     existeMateria:false,
     grupoLider:"",
     inputGrupo: "",
-    grabado: false
+    grabado: false,
+    idUsuario: "",
+    visible: false,
+    direccionesAlternas: []
   };
 
   componentWillMount(){
-    dataSource = this.props.materias.map(materia => materia.descripcion)
+    dataSourceMaterias = this.props.materias.map(materia => materia.descripcion)
   }
 
   componentDidMount(){
-    if(arrayFile.length < 3)
-      props.action = `http://localhost:3001/api/upload/pictures`;      
-  }  
+    if(arrayFileFotos.length < 3)
+      props.action = `http://localhost:3001/api/upload/pictures`;
+    //this.setState({idUsuario: this.props.loggedIn._id}) 
+    this.setState({idUsuario: "5c99202d69d07315f42517da"})
+  }
+
+  showModal = () => {
+    console.log("Entra a showmodal")
+    this.setState({
+      visible: true
+    });
+  }
+
+  handleCancelModal = () => {
+    console.log("Entra a cancelmodal")
+    this.setState({ visible: false });
+  }
+
 
   renderMap = () => {
     loadScript(`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_API_KEY}&callback=initMap`)
@@ -111,8 +126,10 @@ class Perfil extends Component {
   }
 
   geocodeAddress = (address) => {
-    this.geocoder.geocode({ 'address': address }, function handleResults(results, status) {
-  
+
+    let latlng = ""
+
+    this.geocoder.geocode({ 'address': address }, function handleResults(results, status) {      
       if (status === window.google.maps.GeocoderStatus.OK) {
 
         this.setState({
@@ -120,9 +137,23 @@ class Perfil extends Component {
           isGeocodingError: false,
           direccion: results[0].formatted_address
         })
-        
+
         map.setCenter(results[0].geometry.location);
         this.marker.setPosition(results[0].geometry.location);
+
+        latlng = new window.google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+
+        ////////////////////Aqui busca las direcciones alternas/////////////////
+       this.geocoder.geocode({ "latLng":latlng }, function handleResults(results, status) {
+      
+          if (status === window.google.maps.GeocoderStatus.OK) {
+    
+            direccionesAlternas = results.map(direccion => direccion.formatted_address);
+            this.setState({direccionesAlternas})
+            console.log("esta es la direccion: ", direccionesAlternas)
+          }      
+        }.bind(this));
+        ////////////////////////////////////////////////////////////////////////
   
         return;
       }
@@ -143,7 +174,7 @@ class Perfil extends Component {
         lng: ATLANTIC_OCEAN.longitude
       });
   
-    }.bind(this));
+    }.bind(this));    
   }
 
   next() {
@@ -163,14 +194,13 @@ class Perfil extends Component {
   }
 
   grabaPerfil = () => {
-    let errores = [];
     let camposOK = true;
+    errores = [];
     
     if(this.state.nombre === ""){
       errores.push("Nombre")
       camposOK = false;
     }
-
     if(this.state.paterno === ""){
       errores.push("Apellido Paterno")
       camposOK = false;
@@ -195,8 +225,7 @@ class Perfil extends Component {
       errores.push("Rol en ConVocacion")
       camposOK = false;
     }
-    if(this.state.materias.length === 0 && 
-      this.state.tipoUsuario !== "" && 
+    if(this.state.materias.length === 0 &&  
       this.state.tipoUsuario === "T"){
       errores.push("Materias a impartir")
       camposOK = false;
@@ -210,31 +239,36 @@ class Perfil extends Component {
       camposOK = false;
     }
     if(this.state.dataGrupo.length === 0 && 
-      this.state.tipoUsuario !== "" && 
       this.state.tipoUsuario === "L" &&
       this.state.grupoLider === "S"){
       errores.push("Dar de alta grupo")
       camposOK = false;
     }
-    if(this.state.grupoLider === "" &&
-    this.state.tipoUsuario !== "" && 
+    if(this.state.grupoLider === "" && 
     this.state.tipoUsuario === "L"){
       errores.push("Cuenta con un grupo?")
       camposOK = false;
     }
 
     if(camposOK){
+      console.log("Este es el id de usario antes de grabar: ", this.state.idUsuario)
+      comunService.actualizaPerfil(this.state)
+      .then(response => {
+        console.log("Este es el usuari actualizado",response)
+        this.props.getUser(response[0]);
+      })
+      .catch(err => console.log(err))
       this.success()
-      
     } 
     else{
       console.log("estos son los errores: ", errores)
+      this.showModal();
     }
   }
 
   success = () => {
-    message.loading('Action in progress..', 4)
-      .then(() => message.success('La información se ha grabado correctamente', 2.5))
+    message.loading('Action in progress..', 2)
+      .then(() => message.success('La información se ha grabado correctamente', 2))
       .then(() => this.setState({grabado: true}));
   };
   
@@ -258,7 +292,7 @@ class Perfil extends Component {
     const status = info.file.status;
     props.showUploadList=true;
     this.setState({showUploadList: props.showUploadList});
-    if(arrayFile.length > 1){
+    if(arrayFileFotos.length > 1){
       props.action="";
     }
 
@@ -276,7 +310,7 @@ class Perfil extends Component {
 
     if (status === 'done') {
       message.success(`${info.file.name} file uploaded successfully.`);
-      arrayFile.push({ uid: info.file.uid,
+      arrayFileFotos.push({ uid: info.file.uid,
                         name: info.file.name,
                         status: info.file.status,
                         url: info.file.response.pictureUrl})
@@ -287,7 +321,7 @@ class Perfil extends Component {
                         originalNombre: info.file.name
                       })  
                                    
-      this.setState({fileList: arrayFile})
+      this.setState({fileList: arrayFileFotos})
       this.setState({fotos: arrayFotos})
       props.showUploadList=false;
       this.setState({showUploadList: props.showUploadList});
@@ -309,13 +343,13 @@ class Perfil extends Component {
   }
 
   handleRemoveImage = (file) => {
-    let afterRemove = arrayFile.filter(elemento => elemento.uid!==file.uid)
+    let afterRemove = arrayFileFotos.filter(elemento => elemento.uid!==file.uid)
     let afterRemoveFotos = arrayFotos.filter(elemento => elemento.uid!==file.uid)
-    arrayFile=afterRemove;
+    arrayFileFotos=afterRemove;
     arrayFotos=afterRemoveFotos;
-    this.setState({fileList: arrayFile})
+    this.setState({fileList: arrayFileFotos})
     this.setState({fotos: arrayFotos})
-    if(arrayFile.length < 3){
+    if(arrayFileFotos.length < 3){
       props.action = `http://localhost:3001/api/upload/pictures`;
     }
   }
@@ -330,8 +364,8 @@ class Perfil extends Component {
     this.setState({existeMateria: true});
   }
 
-  handleClickAgregar = (event) => {
-    let existeMateria = dataSource.find(elemento => elemento === this.state.materia)
+  handleClickGuardaMateria = (event) => {
+    let existeMateria = dataSourceMaterias.find(elemento => elemento === this.state.materia)
     if(existeMateria === undefined){
       this.setState({existeMateria: false})
     }
@@ -381,7 +415,7 @@ class Perfil extends Component {
 }
 
   render() {
-    const { current } = this.state;
+    const { current, visible } = this.state;
     const { getFieldDecorator } = this.props.form;
     const { previewVisible, previewImage, fileList } = this.state;
 
@@ -502,7 +536,7 @@ class Perfil extends Component {
                             <Icon type="inbox" />
                           </p>
                           <p className="ant-upload-text">Para subir imagenes da click o arrastra un archivo dentro de esta área.</p>
-                          <p className="ant-upload-hint">Solo puedes subir 3 imagenes como maximo. La primera de ellas es la que sera utilizada en tu perfil.</p>
+                          <p className="ant-upload-hint">Puedes subir 3 imagenes como maximo. La primera de ellas es la que sera utilizada en tu perfil.</p>
                         </Dragger>
                       </div>
                       <span><span style={{color:"red"}}>*</span> Notificacion por correo?:</span>
@@ -623,6 +657,17 @@ class Perfil extends Component {
                           </p>
                           <br/><br/>
                         </div>
+                        <Modal
+                          visible={visible}
+                          title="Existen algunos campos sin informar."
+                          onCancel={this.handleCancelModal}
+                          footer={[
+                            <Button key="back" onClick={this.handleCancelModal}>Cerrar</Button>
+                          ]}>                          
+                          <ul>
+                            {errores.map((error,index) => <li key={index}>{error}</li>)}
+                          </ul>
+                        </Modal>
                       </Fragment>
                     :
                     <Fragment>
@@ -633,14 +678,14 @@ class Perfil extends Component {
                             <div className="row col-12">
                               <div className=" row col-12">
                                 <div className="col-lg-8 col-md-8 col-sm-12 col-12">
-                                  <span><span style={{color:"red"}}>*</span> Selecciona las materias que puedes impartir.</span>
+                                  <span><span style={{color:"red"}}>*</span> Selecciona las materias que puedes impartir, máximo 3.</span>
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-12">
                                   <AutoComplete
                                     id="autoCompMateria"
                                     name="materia"
                                     style={{ width: "100%" }}
-                                    dataSource={dataSource}
+                                    dataSource={dataSourceMaterias}
                                     placeholder="Busca una materia"
                                     defaultValue=""
                                     filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
@@ -651,9 +696,9 @@ class Perfil extends Component {
                                 <div className="col-lg-2 col-md-6 col-sm-12 col-12">
                                   {
                                     (this.state.disabledAgregar || this.state.existeMateria === false) || this.state.data.length >2 ?
-                                      <Button id="botonAgregar" onClick={e => this.handleClickAgregar(e)} type="primary" icon="check" style={{marginTop:"4px"}} disabled={true}>Agregar</Button>
+                                      <Button id="botonAgregar" onClick={e => this.handleClickGuardaMateria(e)} type="primary" icon="check" style={{marginTop:"4px"}} disabled={true}>Agregar</Button>
                                       :
-                                      <Button id="botonAgregar" onClick={e => this.handleClickAgregar(e)} type="primary" icon="check" style={{marginTop:"4px"}} disabled={false}>Agregar</Button>
+                                      <Button id="botonAgregar" onClick={e => this.handleClickGuardaMateria(e)} type="primary" icon="check" style={{marginTop:"4px"}} disabled={false}>Agregar</Button>
                                   }                                  
                                 </div>
                                 {
@@ -675,6 +720,17 @@ class Perfil extends Component {
                                   renderItem={item => (<List.Item actions={[<Icon name={item} type="delete" onClick={e => this.handleClikDeleteLista(e, item)}></Icon>]}>{item} </List.Item>)}
                                 />                                
                               </div>
+                              <Modal
+                                visible={visible}
+                                title="Existen algunos campos sin informar."
+                                onCancel={this.handleCancelModal}
+                                footer={[
+                                  <Button key="back" onClick={this.handleCancelModal}>Cerrar</Button>
+                                ]}>                          
+                                <ul>
+                                  {errores.map((error,index) => <li key={index}>{error}</li>)}
+                                </ul>
+                              </Modal>
                             </div>                            
                           </div>                          
                         </Fragment>
@@ -731,6 +787,17 @@ class Perfil extends Component {
                                       renderItem={item => (<List.Item actions={[<Icon name={item} type="delete" onClick={e => this.handleClikDeleteListaGrupo(e, item)}></Icon>]}>{item} </List.Item>)}
                                     />                                
                                   </div>
+                                  <Modal
+                                    visible={visible}
+                                    title="Existen algunos campos sin informar."
+                                    onCancel={this.handleCancelModal}
+                                    footer={[
+                                      <Button key="back" onClick={this.handleCancelModal}>Cerrar</Button>
+                                    ]}>                          
+                                    <ul>
+                                      {errores.map((error,index) => <li key={index}>{error}</li>)}
+                                    </ul>
+                                  </Modal>
                                 </Fragment>
                                 :
                                 <Fragment>

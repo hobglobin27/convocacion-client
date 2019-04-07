@@ -1,7 +1,6 @@
 
 import React, { Component } from 'react';
-import { Avatar, Rate } from 'antd';
-import { Link } from 'react-router-dom';
+import { Avatar} from 'antd';
 
 class AvatarTutor extends Component {
 
@@ -20,15 +19,14 @@ class AvatarTutor extends Component {
   }
 
   render(){
-    console.log(this.props.fotos)
     if(this.state.dentro)
       return(
-        <div className="row justify-content-center col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
-          <Avatar className="avatar-enter" onMouseLeave={this.handleMouseLeave} key={this.props.index} size={200} style={{color: "#09182e", background: "rgb(236, 228, 223)"}}>{this.props.nombre}</Avatar>
+        <div className="row justify-content-center col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12" style={{marginBottom:"15px"}}>
+          <Avatar className="avatar-enter" onMouseLeave={this.handleMouseLeave} key={this.props.index} size={200} style={{color: "#09182e", background: "rgb(236, 228, 223)", fontSize: "11px"}}>{this.props.nombre}</Avatar>
         </div> 
         )    
     return(
-      <div className="row justify-content-center col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+      <div className="row justify-content-center col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12" style={{marginBottom:"15px"}}>
         <Avatar onMouseEnter={this.handleMouseEnter} key={this.props.index} size={200} src={this.props.fotos[0].path} style={{border:"solid rgb(238, 96, 40) 5px"}}/>
       </div>         
     )

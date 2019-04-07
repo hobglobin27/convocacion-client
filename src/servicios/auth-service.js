@@ -36,6 +36,20 @@ class AuthService {
     .catch( error => console.log(error) )
   }
 
+  logout = () =>{
+    const options = {
+      mode: "cors",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+
+    return fetch(process.env.REACT_APP_API_URL + "/logout", options)
+    .then( response => response.json() )
+    .catch( error => console.log(error) )
+  }
+
   updatePassword = (username) =>{
     const options = {
       mode: 'cors',

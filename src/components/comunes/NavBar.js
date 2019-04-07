@@ -21,6 +21,7 @@ import '../estilos/styles.css'
 
 import { connect } from "react-redux";
 import * as actions from "../../actions";
+import AuthService from "../../servicios/auth-service"
 import { CURRENT_REGISTRO, 
         CURRENT_LOGIN,
         CURRENT_TUTOR,
@@ -39,6 +40,8 @@ import { CURRENT_REGISTRO,
         CURRENT_ARTICULOS_LIDER,
         CURRENT_CAMBIA_CONTRASENA_LIDER,
         CURRENT_SALIR_LIDER } from '../../actions/types';
+
+const authService = new AuthService();
 
 class NavBar extends Component {
 
@@ -84,6 +87,13 @@ class NavBar extends Component {
 
   componentDidUpdate(){
     console.log("Este es el current" + this.props.current);
+  }
+
+  handleClickLogOut = (event) => {
+    authService.logout()
+    .then(() => {
+      this.props.getUser(null)
+    })
   }
 
   render() {
@@ -143,7 +153,7 @@ class NavBar extends Component {
                 </Menu.Item>
                 <Menu.Item key="salir-perfil">
                     <div>
-                      <Link to="/" className="estilo-nav"><FaSignOut /> Salir</Link>
+                      <Link onClick = {e => this.handleClickLogOut(e)} to="/" className="estilo-nav"><FaSignOut /> Salir</Link>
                     </div>
                 </Menu.Item>
               </Menu>
@@ -178,7 +188,7 @@ class NavBar extends Component {
                   </Menu.Item>
                   <Menu.Item key="salir-tutor">
                       <div>
-                        <Link to="/" className="estilo-nav"><FaSignOut /> Salir</Link>
+                        <Link onClick = {e => this.handleClickLogOut(e)} to="/" className="estilo-nav"><FaSignOut /> Salir</Link>
                       </div>
                   </Menu.Item>
                 </Menu>
@@ -212,7 +222,7 @@ class NavBar extends Component {
                   </Menu.Item>
                   <Menu.Item key="salir-lider">
                       <div>
-                        <Link to="/" className="estilo-nav"><FaSignOut /> Salir</Link>
+                        <Link onClick = {e => this.handleClickLogOut(e)} to="/" className="estilo-nav"><FaSignOut /> Salir</Link>
                       </div>
                   </Menu.Item>
                 </Menu>

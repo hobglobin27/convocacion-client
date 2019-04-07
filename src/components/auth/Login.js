@@ -32,7 +32,7 @@ class Login extends Component {
     this.props.getListaMaterias();    
   }
 
-  showModal = () => {   
+  showModal = () => {
     this.setState({
       visible: true
     });
@@ -135,8 +135,8 @@ class Login extends Component {
         this.setState({username,password});
       }
       else{
-      this.setState({errorLogin: true,
-                    errorMessage: response.message})
+        this.setState({errorLogin: true,
+                      errorMessage: response.message})
       }
     })
     .catch( error => console.log(error) )
@@ -231,8 +231,7 @@ class Login extends Component {
                 </Button>}
               No tienes cuenta?<Link to={"/registro"} onClick={this.registroSelected}> Registrate!</Link>
             </Form.Item>
-          </Form>
-          
+          </Form>          
           <Modal
             visible={visible}
             title="Introduce tu correo y te enviaremos tu contraseña"
@@ -243,8 +242,7 @@ class Login extends Component {
               <Button id="botonEnvioPassword" key="submit" type="primary" loading={loading} onClick={this.handleOk}>
                 Enviar correo
               </Button>,
-            ]}>
-            
+            ]}>            
             <Form>
               <Form.Item
                 hasFeedback
@@ -266,8 +264,7 @@ class Login extends Component {
                 <p></p>
               }
             </Form> 
-          </Modal>
-        
+          </Modal>        
         </div>
       </div>
     );

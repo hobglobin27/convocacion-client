@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import AvatarTutor from "./avatarTutor";
+import {GET_TOP_TUTORES} from "../../actions/types"
 
 class ListaTutores extends Component {
 	componentWillMount() {
-		this.props.getListaTutores();
+		this.props.getListaTutores(GET_TOP_TUTORES);
 	}
 	render() {
     const { tutores } = this.props;
