@@ -80,6 +80,7 @@ class Perfil extends Component {
 
   componentWillMount(){
     dataSourceMaterias = this.props.materias.map(materia => materia.descripcion)
+    this.setState({fileList: []});
   }
 
   componentDidMount(){
@@ -281,6 +282,7 @@ class Perfil extends Component {
       })
       .catch(err => console.log(err))
       this.success()
+      this.setState({fileList: []})
     } 
     else{
       console.log("estos son los errores: ", errores)
