@@ -1,9 +1,12 @@
 import React, { Component,Fragment} from 'react';
 import { Redirect } from 'react-router-dom';
-import { Avatar, Modal, Button } from 'antd';
+import { Avatar, Modal, Button, message } from 'antd';
 import { connect } from "react-redux";
 import * as actions from "../../actions";
+import ComunService from "../../servicios/comun-service"
 import {CURRENT_REGISTRO, CURRENT_LOGIN} from "../../actions/types"
+
+const comunService = new ComunService();
 
 class AvatarTutor extends Component {
 
@@ -12,7 +15,10 @@ class AvatarTutor extends Component {
     visible: false,
     loading: false,
     registro: false,
-    login: false
+    login: false,
+    errorCorreo: false,
+    errorMessage: "",
+    correoSuccess: false 
   }
 
   componentWillMount(){
@@ -37,10 +43,45 @@ class AvatarTutor extends Component {
   }
 
   handleOk = () => {
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false, visible: false });
-    }, 3000);
+    const emailTutor = this.props.username;
+    const subjectTutor = `ConVocacion. ${this.props.loggedIn.nombre} requiere de tu apoyo`
+    const messageTutor = `<div style="text-align: center;"><img src="https://res.cloudinary.com/dbwsjcrfc/image/upload/v1552166212/imagenes/logo2.png"></img></div><br>
+    <div><b>Hola ${this.props.nombre}.</b></div><br>
+    <div>Haz sido seleccionado por uno de nuestros líderes de grupo.</div><br>
+    <div>Estos son los datos de quien puede ser tu proximo contacto para que puedas aportar al desarrollo de nuestro niños y adolecentes: </div><br>
+    <div><b>${this.props.loggedIn.nombre} ${this.props.loggedIn.paterno} ${this.props.loggedIn.materno}</b></div>
+    <div><b>Email: ${this.props.loggedIn.username}</b></div>
+    <div><b>Direccion: ${this.props.loggedIn.direccion}</b></div><br>
+    <div>Por favor contactactalo por este medio o a traves de la aplicacion.</div><br><br>
+    <div>Gracias por tu ayuda.</div>
+    <div>El equipo de ConVocacion.</div>`;
+
+    const emailLider = this.props.loggedIn.username;
+    const subjectLider = "Convocacion. Tu correo ha sido enviado al tutor seleccionado"
+    const messageLider = `<div style="text-align: center;" ><img src="https://res.cloudinary.com/dbwsjcrfc/image/upload/v1552166212/imagenes/logo2.png"></img></div><br>
+    <div><b>En hora buena ${this.props.loggedIn.nombre}.</b></div><br>
+    <div>En breve seras contactado por <b>${this.props.nombre}</b> quien puede ser el proximo tutor(a) de tu grupo.</div><br><br>
+    <div>Espera noticias.</div>
+    <div>El equipo de ConVocacion.`;
+    
+     console.log("Este es el email", emailTutor)       
+      comunService.sendEmail(emailTutor, subjectTutor, messageTutor)
+      .then( response => {        
+        comunService.sendEmail(emailLider, subjectLider, messageLider)
+        .then( response => {
+          const errorMessage = "";     
+          this.setState({errorMessage});         
+        })
+        .catch( error => console.log(error) )        
+      })
+      .catch( error => console.log(error) )
+
+      this.setState({ loading: true});
+
+      setTimeout(() => {
+        this.setState({ loading: false, visible: false });
+      }, 2000);
+      this.setState({correoSuccess: true});   
   }
 
   handleCancel = () => {
@@ -67,6 +108,11 @@ class AvatarTutor extends Component {
 
     if(this.state.login)
       return <Redirect to="/login" />
+
+    if(this.state.correoSuccess){
+      message.success('El correo se ha enviado correctamente', 3);
+      this.setState({correoSuccess: false})
+    }
 
     return(
       <Fragment>
@@ -158,7 +204,7 @@ class AvatarTutor extends Component {
                 <p>{this.props.direccion}</p>
               </div>
               <div className="row col-12">
-                <p className="col-12" style={{color: "rgb(238, 96, 40)"}}>Si deseas contactar a este tutor debes estar en sesión. </p>
+                <p className="col-12" style={{color: "rgb(238, 96, 40)", fontSize: "15.6px"}}>Eres lider de grupo? Debes estar en sesión para poder contactar a este tutor. </p>
                 <p className="col-lg-6 col-md-6 col-sm-12 col-12">Deseas ingresar? <a href="#" onClick={this.loginSelected}> Click aqui</a></p>
                 <p className="col-lg-6 col-md-6 col-sm-12 col-12" style={{paddingLeft: "0px"}}>No tienes cuenta? <a href="#" onClick={this.registroSelected}> Registrate!</a></p>
               </div>      

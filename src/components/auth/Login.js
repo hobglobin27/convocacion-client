@@ -70,7 +70,7 @@ class Login extends Component {
 
         setTimeout(() => {
           this.setState({ loading: false, visible: false });
-        }, 3000);
+        }, 2000);
         this.setState({correoSuccess: true});
       }
       else{
