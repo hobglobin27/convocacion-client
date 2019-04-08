@@ -143,7 +143,7 @@ class Registro extends Component {
     }
 
     return (
-      <div className="row">
+      <div className="row" style={{paddingBottom: "2px"}}>
         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" style={{width:"50%"}}>
           <Form {...formItemLayout} className="estilo-reg" onSubmit={this.handleSubmit} style={{paddingTop:"1%", paddingBottom:"1%", paddingLeft:"5%", paddingRight:"5%", marginLeft:"5%", marginRight:"5%", marginTop: "13%", marginBottom: "13%"}}>
             <br/>

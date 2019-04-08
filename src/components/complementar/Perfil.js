@@ -58,7 +58,7 @@ class Perfil extends Component {
     previewVisible: false,
     previewImage: '',
     fileList: [],
-    inmueble:"",
+    inmueble:"S",
     isGeocodingError: false,
     foundAddress: INITIAL_LOCATION.address,
     showUploadList: true,
@@ -73,7 +73,9 @@ class Perfil extends Component {
     grabado: false,
     idUsuario: "",
     visible: false,
-    direccionesAlternas: []
+    direccionesAlternas: [],
+    latitud: 0,
+    longitud: 0
   };
 
   componentWillMount(){
@@ -83,8 +85,8 @@ class Perfil extends Component {
   componentDidMount(){
     if(arrayFileFotos.length < 3)
       props.action = `http://localhost:3001/api/upload/pictures`;
-    this.setState({idUsuario: this.props.loggedIn._id}) 
-    //this.setState({idUsuario: "5c99202d69d07315f42517da"})
+    //this.setState({idUsuario: this.props.loggedIn._id}) 
+    this.setState({idUsuario: "5c99202d69d07315f42517da"})
   }
 
   showModal = () => {
@@ -106,21 +108,41 @@ class Perfil extends Component {
   }
 
   initMap = () => {
-    map = new window.google.maps.Map(document.getElementById("map"), {
-      zoom: INITIAL_MAP_ZOOM_LEVEL,
-      center: {
-        lat: INITIAL_LOCATION.position.lat,
-        lng: INITIAL_LOCATION.position.lng
-      }
-    })
-
-    this.marker = new window.google.maps.Marker({
-      map: map,
-      position: {
-        lat: INITIAL_LOCATION.position.lat,
-        lng: INITIAL_LOCATION.position.lng 
-      }
-    });
+    if(this.state.latitud !== 0 && this.state.longitud !== 0){
+      map = new window.google.maps.Map(document.getElementById("map"), {
+        zoom: INITIAL_MAP_ZOOM_LEVEL,
+        center: {
+          lat: this.state.latitud,
+          lng: this.state.longitud
+        }
+      })
+  
+      this.marker = new window.google.maps.Marker({
+        map: map,
+        position: {
+          lat: this.state.latitud,
+          lng: this.state.longitud 
+        }
+      });
+    }
+    else{
+      map = new window.google.maps.Map(document.getElementById("map"), {
+        zoom: INITIAL_MAP_ZOOM_LEVEL,
+        center: {
+          lat: INITIAL_LOCATION.position.lat,
+          lng: INITIAL_LOCATION.position.lng
+        }
+      })
+  
+      this.marker = new window.google.maps.Marker({
+        map: map,
+        position: {
+          lat: INITIAL_LOCATION.position.lat,
+          lng: INITIAL_LOCATION.position.lng 
+        }
+      });
+    }
+   
 
     this.geocoder = new window.google.maps.Geocoder();
   }
@@ -140,6 +162,8 @@ class Perfil extends Component {
 
         map.setCenter(results[0].geometry.location);
         this.marker.setPosition(results[0].geometry.location);
+        this.setState({latitud: results[0].geometry.location.lat()})
+        this.setState({longitud: results[0].geometry.location.lng()})
 
         latlng = new window.google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
 
@@ -150,7 +174,6 @@ class Perfil extends Component {
     
             direccionesAlternas = results.map(direccion => direccion.formatted_address);
             this.setState({direccionesAlternas})
-            console.log("esta es la direccion: ", direccionesAlternas)
           }      
         }.bind(this));
         ////////////////////////////////////////////////////////////////////////
@@ -180,17 +203,16 @@ class Perfil extends Component {
   next() {
     const current = this.state.current + 1;
     this.setState({ current });
-    if(current === 2){
+    if(current === 2)
       this.renderMap();
-    }
   }
+
 
   prev() {
     const current = this.state.current - 1;
     this.setState({ current });
-    if(current === 2){
+    if(current === 2)
       this.renderMap();
-    }
   }
 
   grabaPerfil = () => {
@@ -276,9 +298,9 @@ class Perfil extends Component {
   handleChange = (event) => {
     const {name, value} = event.target;
     this.setState({[name]: value});
-    if(event.target.name==="inmueble"){
+    /*if(event.target.name==="inmueble"){
       this.renderMap();
-    }
+    }*/
     
     if(event.target.name==="inputGrupo"){
       if(event.target.value!=="")
@@ -452,7 +474,7 @@ class Perfil extends Component {
               <div className="d-flex flex-wrap justify-content-start">
                 <div className="row align-items-center col-12">
                   <div className="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <p style={{paddingBottom:"10%"}}><span style={{color:"red"}}>*</span> Nombre</p>
+                    <p style={{paddingBottom:"10%"}}><span style={{color:"red"}}>*</span> Nombre:</p>
                   </div>
                   <div className="col-lg-9 col-md-9 col-sm-12 col-12">
                     <Form.Item
@@ -471,7 +493,7 @@ class Perfil extends Component {
               <div className="d-flex flex-wrap justify-content-start">
                 <div className="row align-items-center col-12">
                   <div className="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <p style={{paddingBottom:"10%"}}><span style={{color:"red"}}>*</span> Apellido Paterno</p>
+                    <p style={{paddingBottom:"10%"}}><span style={{color:"red"}}>*</span> Apellido Paterno:</p>
                   </div>
                   <div className="col-lg-9 col-md-9 col-sm-12 col-12">
                     <Form.Item
@@ -490,7 +512,7 @@ class Perfil extends Component {
               <div className="d-flex flex-wrap justify-content-start">
                 <div className="row align-items-center col-12">
                   <div className="col-lg-3 col-md-3 col-sm-12 col-12">
-                    <p style={{paddingBottom:"10%"}}><span style={{color:"red"}}>*</span> Apellido Materno</p>
+                    <p style={{paddingBottom:"10%"}}><span style={{color:"red"}}>*</span> Apellido Materno:</p>
                   </div>
                   <div className="col-lg-9 col-md-9 col-sm-12 col-12">
                     <Form.Item
@@ -539,7 +561,7 @@ class Perfil extends Component {
                           <p className="ant-upload-hint">Puedes subir 3 imagenes como maximo. La primera de ellas es la que sera utilizada en tu perfil.</p>
                         </Dragger>
                       </div>
-                      <span><span style={{color:"red"}}>*</span> Notificacion por correo?:</span>
+                      <span><span style={{color:"red"}}>*</span> Notificacion por correo?</span>
                       <RadioGroup name="notificacionEmail" onChange={this.handleChange} value={this.state.notificacionEmail} style={{paddingLeft: "5%"}}>
                         <Radio value={"S"}>Si</Radio>
                         <Radio value={"N"}>No</Radio>
@@ -598,14 +620,9 @@ class Perfil extends Component {
                   <div className="d-flex flex-wrap justify-content-start">
                     <div className="row align-items-center col-12">
                       <div className="col-lg-8 col-md-8 col-sm-12 col-12">
-                        <span><span style={{color:"red"}}>*</span> ¿Tienes un inmueble en el que se pueda dar la capacitación?</span>
+                        <span><span style={{color:"red"}}>*</span> Captura tu dirección o la del inmueble en el que se pueda dar la capacitación:</span>
                       </div>
-                      <div className="col-lg-4 col-md-4 col-sm-12 col-12">
-                        <RadioGroup name="inmueble" onChange={this.handleChange} value={this.state.inmueble} style={{paddingLeft: "0%"}}>
-                          <Radio value={"S"}>Si</Radio>
-                          <Radio value={"N"}>No</Radio>
-                        </RadioGroup>
-                      </div>
+                     
                     </div>                    
                     {
                       this.state.inmueble === "S" ?
@@ -678,7 +695,7 @@ class Perfil extends Component {
                             <div className="row col-12">
                               <div className=" row col-12">
                                 <div className="col-lg-8 col-md-8 col-sm-12 col-12">
-                                  <span><span style={{color:"red"}}>*</span> Selecciona las materias que puedes impartir, máximo 3.</span>
+                                  <span><span style={{color:"red"}}>*</span> Selecciona las materias que puedes impartir, máximo 3:</span>
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-12">
                                   <AutoComplete
@@ -753,7 +770,7 @@ class Perfil extends Component {
                                 <Fragment>                          
                                   <div className="row col-12"> 
                                     <div className="col-lg-2 col-md-3 col-sm-12 col-12">
-                                      <p style={{paddingBottom:"10%"}}> Introduce Grupo</p>
+                                      <p style={{paddingBottom:"10%"}}> Introduce Grupo:</p>
                                     </div>                     
                                     <div className="col-lg-6 col-md-6 col-sm-12 col-12">
                                       <Form.Item
