@@ -50,7 +50,7 @@ class AuthService {
     .catch( error => console.log(error) )
   }
 
-  updatePassword = (username) =>{
+  updatePassword = (username, password) =>{
     const options = {
       mode: 'cors',
       method: "POST",
@@ -59,7 +59,7 @@ class AuthService {
       },
       body: JSON.stringify({
         username: username,
-        password: process.env.REACT_APP_PASSWORD_TEMP
+        password: password
       })
     }
 

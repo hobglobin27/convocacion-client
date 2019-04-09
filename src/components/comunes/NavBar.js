@@ -148,7 +148,7 @@ class NavBar extends Component {
                 </Menu.Item>
                 <Menu.Item key="cambia-contrasena-perfil">
                     <div>
-                      <Link to="/" className="estilo-nav"><FaLock/> Cambiar contraseña</Link>
+                      <Link to="/cambiopassword" className="estilo-nav"><FaLock/> Cambiar contraseña</Link>
                     </div>
                 </Menu.Item>
                 <Menu.Item key="salir-perfil">
@@ -183,7 +183,7 @@ class NavBar extends Component {
                   </Menu.Item>
                   <Menu.Item key="cambia-contrasena-tutor">
                       <div>
-                        <Link to="/" className="estilo-nav"><FaLock/> Cambiar contraseña</Link>
+                        <Link to="/cambiopassword" className="estilo-nav"><FaLock/> Cambiar contraseña</Link>
                       </div>
                   </Menu.Item>
                   <Menu.Item key="salir-tutor">
@@ -217,7 +217,7 @@ class NavBar extends Component {
                   </Menu.Item>
                   <Menu.Item key="cambia-contrasena-lider">
                       <div>
-                        <Link to="/" className="estilo-nav"><FaLock/> Cambiar contraseña</Link>
+                        <Link to="/cambiopassword" className="estilo-nav"><FaLock/> Cambiar contraseña</Link>
                       </div>
                   </Menu.Item>
                   <Menu.Item key="salir-lider">

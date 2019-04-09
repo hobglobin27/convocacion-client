@@ -14,6 +14,7 @@ import Perfil from './components/complementar/Perfil'
 import Login from './components/auth/Login'
 import Registro from './components/auth/Registro'
 import HomePage from './components/comunes/HomePage'
+import CambioPassword from './components/auth/CambioPassword'
 
 //Imports estilos
 import './components/estilos/styles.css';
@@ -23,6 +24,7 @@ const { Header, Footer, Content } = Layout;
 const LoginForm = Form.create({ name: 'normal_login' })(Login);
 const RegistroForm = Form.create({ name: 'register' })(Registro);
 const PerfilForm = Form.create({ name: 'perfil' })(Perfil);
+const CambioPasswordForm = Form.create({ name: 'perfil' })(CambioPassword);
 
 class App extends Component {
 
@@ -51,6 +53,9 @@ class App extends Component {
                 </div>
                 <div className=''>
                   <Route exact path="/homepage" component={HomePage} />
+                </div>
+                <div className='contenedor-cambio-psw'>
+                  <Route exact path="/cambiopassword" component={CambioPasswordForm} />
                 </div> 
               </div>                     
             </Switch> 

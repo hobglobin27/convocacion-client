@@ -51,7 +51,7 @@ class Login extends Component {
       if(response._id !== undefined && response._id !== null){        
         comunService.sendEmail(email, subject, message)
         .then( response => {
-          authService.updatePassword(this.state.correo)
+          authService.updatePassword(this.state.correo, process.env.REACT_APP_PASSWORD_TEMP)
           .then(response => {
             const password = "";
             const correo = ""; 
@@ -173,9 +173,10 @@ class Login extends Component {
     }
 
     if(this.state.correoSuccess){
-      message.success('El correo se ha enviado correctamente', 3);
+      message.loading('La tarea esta en proceso...', 2.5)
+      .then(() => message.success('El correo se ha enviado correctamente...', 2.5))
       this.setState({correoSuccess: false})
-    }
+    }    
 
     return (
       <div className="row">          

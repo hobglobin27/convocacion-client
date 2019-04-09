@@ -110,6 +110,15 @@
   background-size: cover;
 }
 
+.contenedor-cambio-psw{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-image: url("https://res.cloudinary.com/dbwsjcrfc/image/upload/v1554777701/imagenes/clases.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .barras{
   text-align: center;
   background: rgb(238, 96, 40);
@@ -217,7 +226,7 @@
 }
 
 .titulo-busqueda{
-  font-size: 3.5vw;
+  font-size: 3vw;
   color: rgb(238, 96, 40);
   margin-bottom: 10px;
 }

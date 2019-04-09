@@ -110,9 +110,10 @@ class AvatarTutor extends Component {
       return <Redirect to="/login" />
 
     if(this.state.correoSuccess){
-      message.success('El correo se ha enviado correctamente', 3);
+      message.loading('La tarea esta en proceso...', 2.5)
+      .then(() => message.success('El correo se ha enviado correctamente...', 2.5))
       this.setState({correoSuccess: false})
-    }
+    }    
 
     return(
       <Fragment>
