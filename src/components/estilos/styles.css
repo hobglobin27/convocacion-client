@@ -1,10 +1,10 @@
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:300');
-@import url('https://fonts.googleapis.com/css?family=Plok:300');
+@import url('https://fonts.googleapis.com/css?family=Lobster:300');
 
 .cuerpo {
   text-align:center;  
-  font-family:'Plok';
+  font-family:'Lobster';
   font-weight: 500;
   font-size:2.2vw;
   overflow:hidden;

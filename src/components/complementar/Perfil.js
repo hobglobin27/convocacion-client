@@ -85,7 +85,7 @@ class Perfil extends Component {
 
   componentDidMount(){
     if(arrayFileFotos.length < 3)
-      props.action = `http://localhost:3001/api/upload/pictures`;
+      props.action = process.env.REACT_APP_API_URL + '/upload/pictures';
     this.setState({idUsuario: this.props.loggedIn._id}) 
     //this.setState({idUsuario: "5c99202d69d07315f42517da"})
   }
