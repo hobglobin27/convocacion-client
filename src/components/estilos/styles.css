@@ -1,12 +1,12 @@
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:300');
-@import url('https://fonts.googleapis.com/css?family=Lobster:300');
+@import url('https://fonts.googleapis.com/css?family=Mrs+Sheppards:400');
 
 .cuerpo {
   text-align:center;  
-  font-family:'Lobster';
-  font-weight: 500;
-  font-size:2.2vw;
+  font-family:'Mrs Sheppards';
+  font-weight: 0;
+  font-size:6.3vw;
   overflow:hidden;
   color: #09182e;
   -webkit-backface-visibility: hidden;
@@ -197,7 +197,7 @@
 
 .avatar-enter{
   border: solid rgb(238, 96, 40) 5px;
-  font-family: Plok;
+  font-family: 'Mrs Sheppards';
 }
 
 .steps-content {

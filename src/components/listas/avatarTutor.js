@@ -120,7 +120,7 @@ class AvatarTutor extends Component {
       {        
         this.state.dentro ?
         <div className="row justify-content-center col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12" style={{marginBottom:"15px"}}>
-          <a><Avatar className="avatar-enter" onClick={e => this.showModal()} onMouseLeave={this.handleMouseLeave} key={this.props.index} size={200} style={{color: "#09182e", background: "rgb(236, 228, 223)", fontSize: "11px"}}>{this.props.nombre}</Avatar></a>
+          <a><Avatar className="avatar-enter" onClick={e => this.showModal()} onMouseLeave={this.handleMouseLeave} key={this.props.index} size={200} style={{color: "#09182e", background: "rgb(236, 228, 223)", fontSize: "25px"}}>{this.props.nombre}</Avatar></a>
           <p className = "estilo-materias" style={{marginTop: "5px"}}>{this.props.materias[0]}</p>
           <p className = "estilo-materias">{this.props.materias[1]}</p>
           <p className = "estilo-materias">{this.props.materias[2]}</p>

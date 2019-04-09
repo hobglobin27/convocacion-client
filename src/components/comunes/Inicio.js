@@ -152,7 +152,7 @@ class Inicio extends Component{
               </div>                                
             </div>
             <div className="cuerpo">
-              <div className="textoInicio">Con <b style={{color: "rgb(238, 96, 40)"}}>vocacion</b></div> 
+              <div className="textoInicio">Con <span style={{color: "rgb(238, 96, 40)"}}>vocacion</span></div> 
               <div className="textoInicio"> 
                 <span>, se tu mejor version...</span>
               </div>
