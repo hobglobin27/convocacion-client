@@ -17,7 +17,7 @@ class HomePage extends Component{
       <div>
         <br/>
         <div>
-          <p className="titulo-busqueda" style={{textAlign: "center"}}>Que gusto tenerte de vuelta {this.props.loggedIn.nombre}!!!</p>
+          <p className="titulo-busqueda" style={{textAlign: "center"}}>Bienvenido {this.props.loggedIn.nombre}. Que gusto tenerte como nuestro tutor.!!!</p>
           <br/>
           <div className="col-12 col-sm-12 col-md-12 col-lg-12">
             <ReactPlayer

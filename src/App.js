@@ -15,6 +15,7 @@ import Login from './components/auth/Login'
 import Registro from './components/auth/Registro'
 import HomePage from './components/comunes/HomePage'
 import CambioPassword from './components/auth/CambioPassword'
+import MiPerfil from './components/comunes/MiPerfil';
 
 //Imports estilos
 import './components/estilos/styles.css';
@@ -41,6 +42,7 @@ class App extends Component {
           <Content className="fondo">   
             <Switch> 
               <Route exact path="/" component={Inicio}/>
+              <Route exact path="/consultaperfil" component={MiPerfil} />
               <div className='container-fluid'>
                 <div className='contenedor-reg'>
                   <Route exact path="/registro" component={RegistroForm}/>
@@ -53,7 +55,7 @@ class App extends Component {
                 </div>
                 <div className=''>
                   <Route exact path="/homepage" component={HomePage} />
-                </div>
+                </div>                
                 <div className='contenedor-cambio-psw'>
                   <Route exact path="/cambiopassword" component={CambioPasswordForm} />
                 </div> 
@@ -61,7 +63,7 @@ class App extends Component {
             </Switch> 
           </Content>    
           <Footer className="fondoFooter" style={{background: "#09182e", color: "#ffffff"}}>
-            Con vocación ©2018 Created by IPA
+            Con vocación ©2019 Created by IPA
           </Footer>
         </Layout>
       </Provider>

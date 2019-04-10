@@ -132,10 +132,11 @@
 .barras-resultado{
   text-align: left;
   padding-left: 7%;
-  color: rgb(238, 96, 40);
-  width: 100%; 
-  border: solid 1px #09182e;
-  border-radius: 20px;
+  color: #09182e;
+  width: 100%;
+  border-top: solid 1px rgb(238, 96, 40);
+  border-bottom: solid 1px rgb(238, 96, 40);
+  border-radius: 15px;
   font-size:3vw;
 }
 
@@ -153,6 +154,7 @@
   line-height: 130%;
   width: 70%
 }
+
 .barra-derecha{
   padding-top: 0%;
   color: white;
@@ -244,4 +246,17 @@
   line-height: 15px;
   font-weight: bold;
   color: #09182e;
+}
+
+.nombre-perfil{
+  font-size:2.5vw;
+  color: rgb(238, 96, 40);
+  line-height: 130%;
+  width: 100%;
+  padding: 0%;
+}
+
+.barra-derecha-perfil{
+  color: #09182e;
+  padding-left: 30px;
 }

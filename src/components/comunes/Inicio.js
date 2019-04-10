@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import * as actions from "../../actions";
 import { CURRENT_HOME, GET_TOP_TUTORES, GET_MATERIAS_TUTOR, GET_DIRECCION_TUTOR, GET_MATERIA_DIRECCION_TUTOR } from "../../actions/types";
 import '../estilos/styles.css';
-import { Button, AutoComplete } from 'antd';
+import { Button, AutoComplete} from 'antd';
 import ListaTutores from "../listas/listaTutores";
 
 let dataSourceMaterias = [];
@@ -152,10 +152,29 @@ class Inicio extends Component{
               </div>                                
             </div>
             <div className="cuerpo">
-              <div className="textoInicio">Con <span style={{color: "rgb(238, 96, 40)"}}>vocacion</span></div> 
-              <div className="textoInicio"> 
-                <span>, se tu mejor version...</span>
-              </div>
+            {
+              !this.state.existeDireccion && !this.state.existeMateria ?
+                <Fragment>
+                  <div className="textoInicio">Con <span style={{color: "rgb(238, 96, 40)"}}>vocacion</span></div> 
+                  <div className="textoInicio"> 
+                    <span>, se tu mejor version...</span>
+                  </div>
+                </Fragment>
+              :
+                <Fragment>
+                  {
+                  this.state.existeDireccion || this.state.existeMateria ?
+                  <Fragment></Fragment>
+                  :
+                  <Fragment>
+                    <div className="textoInicio">Con <span style={{color: "rgb(238, 96, 40)"}}>vocacion</span></div> 
+                    <div className="textoInicio"> 
+                      <span>, se tu mejor version...</span>
+                    </div>
+                 </Fragment>
+                  }
+                </Fragment>
+            }
             </div>
             <section>
               <br/>
@@ -167,7 +186,9 @@ class Inicio extends Component{
                     <Fragment>
                       {
                       this.state.existeDireccion || this.state.existeMateria ?
-                        <p className="barras-resultado">Resultados de tu busqueda:</p>
+                        <Fragment>
+                          <p className="barras-resultado">Resultados de tu busqueda:</p>
+                        </Fragment>
                       :
                         <p className="barras">Nuestros tutores</p>
                       }

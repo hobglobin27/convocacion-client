@@ -571,7 +571,7 @@ class Perfil extends Component {
                     </div> 
                     <div className="col-lg-6 col-md-6 col-sm-12 col-12">
                       <div className="clearfix row align-items-center col-12">
-                        <Upload
+                        <Upload id="idUpload"
                           listType="picture-card"
                           fileList={fileList}
                           onPreview={this.handlePreview}
