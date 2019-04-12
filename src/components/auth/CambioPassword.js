@@ -105,6 +105,9 @@ class CambioPassword extends Component {
       },
     };
 
+    if(this.props.loggedIn === null || this.props.loggedIn === undefined)
+     return <Redirect to="/" />
+
     if(!this.state.errorCambio){
       message.loading('La tarea esta en proceso...', 2.5)
       .then(() => message.success('El contraseña se ha cambiado correctamente...', 2.5))

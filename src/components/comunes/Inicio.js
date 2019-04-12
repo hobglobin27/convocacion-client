@@ -24,7 +24,8 @@ class Inicio extends Component{
     this.props.getCountTutores();
     this.props.getListaMaterias();
     this.props.getListaDireccionesAlternas();
-    this.homeSelected();
+    if(this.props.loggedIn === null || this.props.loggedIn === undefined)
+      this.homeSelected();
     this.props.getListaTutores(GET_TOP_TUTORES);
   }
 

@@ -16,6 +16,9 @@ import Registro from './components/auth/Registro'
 import HomePage from './components/comunes/HomePage'
 import CambioPassword from './components/auth/CambioPassword'
 import MiPerfil from './components/comunes/MiPerfil';
+import Ayuda from './components/comunes/Ayuda';
+import SerTutor from './components/comunes/SerTutor';
+import SerLider from './components/comunes/SerLider';
 
 //Imports estilos
 import './components/estilos/styles.css';
@@ -55,7 +58,16 @@ class App extends Component {
                 </div>
                 <div className=''>
                   <Route exact path="/homepage" component={HomePage} />
-                </div>                
+                </div>
+                <div className=''>
+                  <Route exact path="/ayuda" component={Ayuda} />
+                </div>
+                <div className=''>
+                  <Route exact path="/ser-tutor" component={SerTutor} />
+                </div>  
+                <div className=''>
+                  <Route exact path="/ser-lider" component={SerLider} />
+                </div>         
                 <div className='contenedor-cambio-psw'>
                   <Route exact path="/cambiopassword" component={CambioPasswordForm} />
                 </div> 

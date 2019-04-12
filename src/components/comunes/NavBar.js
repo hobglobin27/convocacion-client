@@ -13,7 +13,9 @@ import FaPuzzlePiece from 'react-icons/lib/fa/puzzle-piece'
 import FaLock from 'react-icons/lib/fa/lock'
 import FaSignOut from 'react-icons/lib/fa/sign-out'
 import FaListAlt from 'react-icons/lib/fa/list-alt'
+import FaSearch from 'react-icons/lib/fa/search'
 import FaNewspaperO from 'react-icons/lib/fa/newspaper-o'
+import FaHome from 'react-icons/lib/fa/home'
 
 //Imports Estilos
 import 'antd/dist/antd.css';
@@ -39,7 +41,9 @@ import { CURRENT_REGISTRO,
         CURRENT_GRUPOS,
         CURRENT_ARTICULOS_LIDER,
         CURRENT_CAMBIA_CONTRASENA_LIDER,
-        CURRENT_SALIR_LIDER } from '../../actions/types';
+        CURRENT_SALIR_LIDER,
+        CURRENT_HOME,
+        CURRENT_BUSCAR_TUTOR } from '../../actions/types';
 
 const authService = new AuthService();
 
@@ -47,6 +51,8 @@ class NavBar extends Component {
 
   handleClick = (e) => {
     console.log('click ', e);
+    if(e.key === "inicio")
+      this.props.setCurrentNav(CURRENT_HOME);
     if(e.key === "user-plus")
       this.props.setCurrentNav(CURRENT_REGISTRO);
     if(e.key === "sign-in")
@@ -83,7 +89,10 @@ class NavBar extends Component {
       this.props.setCurrentNav(CURRENT_CAMBIA_CONTRASENA_LIDER);
     if(e.key === "salir-lider")
       this.props.setCurrentNav(CURRENT_SALIR_LIDER);
+    if(e.key === "buscar-tutor")
+      this.props.setCurrentNav(CURRENT_BUSCAR_TUTOR);
   }
+  
 
   componentDidUpdate(){
     console.log("Este es el current" + this.props.current);
@@ -107,6 +116,11 @@ class NavBar extends Component {
             mode="horizontal"
             theme='dark'
             > 
+              <Menu.Item key="inicio">
+                <div>
+                  <Link to="/" className="estilo-nav"><FaHome/> Inicio</Link>  
+                </div>
+              </Menu.Item>
               <Menu.Item key="user-plus">
                 <div>
                   <Link to="/registro" className="estilo-nav"><FaUserPlus/> Registrate</Link>  
@@ -119,17 +133,17 @@ class NavBar extends Component {
               </Menu.Item>
               <Menu.Item key="tutor">
                   <div>
-                    <Link to="/" className="estilo-nav"><FaGraduationCap/> Quieres ser Tutor?</Link>
+                    <Link to="/ser-tutor" className="estilo-nav"><FaGraduationCap/> Quieres ser Tutor?</Link>
                   </div>
               </Menu.Item>
               <Menu.Item key="lider-grupo">
                   <div>
-                    <Link to="/" className="estilo-nav"><FaGroup/> Se un líder de grupo</Link>
+                    <Link to="/ser-lider" className="estilo-nav"><FaGroup/> Se un líder de grupo</Link>
                   </div>
               </Menu.Item>
               <Menu.Item key="help">
                   <div>
-                    <Link to="/login" className="estilo-nav"><MdHelp /> Ayuda</Link>
+                    <Link to="/ayuda" className="estilo-nav"><MdHelp /> Ayuda</Link>
                   </div>
               </Menu.Item>
             </Menu>
@@ -204,6 +218,11 @@ class NavBar extends Component {
                       <Link to="/consultaperfil" className="estilo-nav">
                       <Avatar  size={30} src={this.props.loggedIn.fotos[0].path} style={{color: "#09182e", background: "rgb(236, 228, 223)"}}></Avatar> Mi perfil</Link>
                     </div>
+                  </Menu.Item>
+                  <Menu.Item key="buscar-tutor">
+                      <div>
+                        <Link to="/" className="estilo-nav"><FaSearch/> Buscar tutor</Link>
+                      </div>
                   </Menu.Item>
                   <Menu.Item key="grupos">
                       <div>

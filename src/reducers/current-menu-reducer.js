@@ -16,7 +16,8 @@ import { CURRENT_REGISTRO,
 				CURRENT_GRUPOS,
 				CURRENT_ARTICULOS_LIDER,
 				CURRENT_CAMBIA_CONTRASENA_LIDER,
-				CURRENT_SALIR_LIDER } from "../actions/types";
+				CURRENT_SALIR_LIDER,
+				CURRENT_BUSCAR_TUTOR } from "../actions/types";
 
 const initialState = "";
 
@@ -59,7 +60,8 @@ export default (state = initialState, action) => {
 		return state="cambia-contrasena-lider";
 		case CURRENT_SALIR_LIDER:
 		return state="salir-lider";
-
+		case CURRENT_BUSCAR_TUTOR:
+		return state="buscar-tutor"
 		case CURRENT_HOME:
 			return state="";
 		default:

@@ -140,10 +140,22 @@
   font-size:3vw;
 }
 
+.barras-ayuda{
+  text-align: left;
+  padding: 2%;
+  color: #09182e;
+  width: 100%;
+  border-top: solid 1px rgb(238, 96, 40);
+  border-bottom: solid 1px rgb(238, 96, 40);
+  border-radius: 25px;
+  margin-bottom: 2%;
+}
+
 .barra-principal{
-  border: solid rgb(238, 96, 40) 1px;
+  border-top: solid rgb(238, 96, 40) 1px;
+  border-bottom: solid rgb(238, 96, 40) 1px;
   width:80%; 
-  border-radius: 20px;
+  border-radius: 80px;
 }
 
 .barra-izquierda{
@@ -249,14 +261,55 @@
 }
 
 .nombre-perfil{
-  font-size:2.5vw;
+  font-size:2vw;
   color: rgb(238, 96, 40);
   line-height: 130%;
   width: 100%;
-  padding: 0%;
+  text-align: center;
 }
 
 .barra-derecha-perfil{
   color: #09182e;
-  padding-left: 30px;
+  padding-left: 5%;
+  padding-right: 0%
+}
+
+.titulo-perfil{
+  font-size:30px;
+  color: rgb(238, 96, 40);
+  line-height: 130%;
+  width: 100%;
+  padding-left:10%;
+}
+
+.estilo-detalle-perfil {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.seccion-detalle{
+   color: #09182e;
+}
+
+.descripciones{
+  margin-left: 5%;
+}
+
+.estilo-imagenes{
+  text-align: center;
+}
+
+.tipo-divider{
+  color: rgb(238, 96, 40);
+}
+
+.titulo-ayuda{
+  font-size: 2vw;
+  color: rgb(238, 96, 40);
+  margin-top: 2%;
+}
+
+.titulo-pregunta{
+  font-size: 16px;
+  font-weight: bold;
 }
