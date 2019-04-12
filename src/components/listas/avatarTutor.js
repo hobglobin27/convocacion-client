@@ -134,7 +134,8 @@ class AvatarTutor extends Component {
         </div> 
       }
       {
-        this.props.loggedIn !== null && this.props.loggedIn !== undefined ?
+        this.props.loggedIn !== null && this.props.loggedIn !== undefined && 
+        this.props.loggedIn.tipoUsuario !== undefined?
         <Modal
           visible={visible}
           title="Información del tutor..."
