@@ -94,6 +94,12 @@ class Inicio extends Component{
       return <Redirect to="/perfil" />
     }
 
+    if(this.props.loggedIn !== null && this.props.loggedIn === undefined &&
+      this.props.loggedIn.tipoUsuario === ""){
+      this.props.setCurrentNav(CURRENT_COMPLETA_PERFIL);
+      return <Redirect to="/perfil" />
+    }
+
     return(
       <div>
         <br/>        
