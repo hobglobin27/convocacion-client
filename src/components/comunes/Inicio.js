@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import * as actions from "../../actions";
-import { CURRENT_HOME, GET_TOP_TUTORES, GET_MATERIAS_TUTOR, GET_DIRECCION_TUTOR, GET_MATERIA_DIRECCION_TUTOR, CURRENT_INICIO } from "../../actions/types";
+import { CURRENT_HOME, GET_TOP_TUTORES, GET_MATERIAS_TUTOR, GET_DIRECCION_TUTOR, GET_MATERIA_DIRECCION_TUTOR, CURRENT_INICIO, CURRENT_ASIGNACIONES, CURRENT_COMPLETA_PERFIL } from "../../actions/types";
 import '../estilos/styles.css';
 import { Button, AutoComplete} from 'antd';
 import ListaTutores from "../listas/listaTutores";
@@ -86,6 +86,12 @@ class Inicio extends Component{
       this.props.loggedIn.tipoUsuario === "T"){
       this.props.setCurrentNav(CURRENT_HOME);
       return <Redirect to="/homepage" />
+    }
+
+    if(this.props.loggedIn !== null && this.props.loggedIn !== undefined &&
+      this.props.loggedIn.tipoUsuario === ""){
+      this.props.setCurrentNav(CURRENT_COMPLETA_PERFIL);
+      return <Redirect to="/perfil" />
     }
 
     return(
