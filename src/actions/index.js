@@ -5,7 +5,9 @@ import {GET_TOP_TUTORES,
         GET_MATERIAS_TUTOR,
         GET_DIRECCION_TUTOR,
         GET_MATERIA_DIRECCION_TUTOR,
-        GET_DIRECCIONES_ALTERNAS} from "./types"
+        GET_DIRECCIONES_ALTERNAS,
+        GET_GRUPOS_ASIGNADOS,
+        GET_GRUPOS_PENDIENTES} from "./types"
 
 export const setCurrentNav = accion => dispatch => dispatch({ type: accion});
 
@@ -53,7 +55,7 @@ export const getListaTutores = (tipoAccion, materia, direccion) => async dispatc
     break;
     default:
       break;
-        }
+  }
 };
 
 
@@ -101,5 +103,28 @@ export const getListaDireccionesAlternas = () => async dispatch => {
 	dispatch({ type: GET_DIRECCIONES_ALTERNAS, payload: results });
 };
 
+export const getListaAsignaciones = (idUsuario) => async dispatch => {
+  let response="";
+  let results=[];
+  response = await fetch(process.env.REACT_APP_API_URL + `/gruposasignados/${idUsuario}`,{
+  mode: 'cors',
+  headers: {
+    "Content-Type": "application/json"
+  }});
+  results = await response.json();
+  dispatch({ type: GET_GRUPOS_ASIGNADOS, payload: results });  
+};
+
+export const getListaPendientes = (idUsuario) => async dispatch => {
+  let response="";
+  let results=[];  
+  response = await fetch(process.env.REACT_APP_API_URL + `/grupospendientes/${idUsuario}`,{
+  mode: 'cors',
+  headers: {
+    "Content-Type": "application/json"
+  }});
+  results = await response.json();
+  dispatch({ type: GET_GRUPOS_PENDIENTES, payload: results });
+};
 
 

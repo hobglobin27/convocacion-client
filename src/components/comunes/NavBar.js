@@ -43,7 +43,8 @@ import { CURRENT_REGISTRO,
         CURRENT_CAMBIA_CONTRASENA_LIDER,
         CURRENT_SALIR_LIDER,
         CURRENT_HOME,
-        CURRENT_BUSCAR_TUTOR } from '../../actions/types';
+        CURRENT_BUSCAR_TUTOR,
+        CURRENT_INICIO } from '../../actions/types';
 
 const authService = new AuthService();
 
@@ -52,7 +53,7 @@ class NavBar extends Component {
   handleClick = (e) => {
     console.log('click ', e);
     if(e.key === "inicio")
-      this.props.setCurrentNav(CURRENT_HOME);
+      this.props.setCurrentNav(CURRENT_INICIO);
     if(e.key === "user-plus")
       this.props.setCurrentNav(CURRENT_REGISTRO);
     if(e.key === "sign-in")
@@ -185,7 +186,7 @@ class NavBar extends Component {
                       <Avatar  size={30} src={this.props.loggedIn.fotos[0].path} style={{color: "#09182e", background: "rgb(236, 228, 223)"}}></Avatar> Mi perfil</Link>
                     </div>
                   </Menu.Item>
-                  <Menu.Item key="asignaciones">
+                  {/*<Menu.Item key="asignaciones">
                       <div>
                         <Link to="/" className="estilo-nav"><FaListAlt/> Asignaciones</Link>
                       </div>
@@ -194,7 +195,7 @@ class NavBar extends Component {
                       <div>
                         <Link to="/" className="estilo-nav"><FaNewspaperO/> Articulos</Link>
                       </div>
-                  </Menu.Item>
+                  </Menu.Item>*/}
                   <Menu.Item key="cambia-contrasena-tutor">
                       <div>
                         <Link to="/cambiopassword" className="estilo-nav"><FaLock/> Cambiar contraseña</Link>
@@ -224,16 +225,16 @@ class NavBar extends Component {
                         <Link to="/" className="estilo-nav"><FaSearch/> Buscar tutor</Link>
                       </div>
                   </Menu.Item>
-                  <Menu.Item key="grupos">
+                  {/*<Menu.Item key="grupos">
                       <div>
-                        <Link to="/" className="estilo-nav"><FaGroup/> Grupos</Link>
+                        <Link to="/grupos" className="estilo-nav"><FaGroup/> Grupos</Link>
                       </div>
                   </Menu.Item>
                   <Menu.Item key="articulos-lider">
                       <div>
                         <Link to="/" className="estilo-nav"><FaNewspaperO/> Articulos</Link>
                       </div>
-                  </Menu.Item>
+                  </Menu.Item>*/}
                   <Menu.Item key="cambia-contrasena-lider">
                       <div>
                         <Link to="/cambiopassword" className="estilo-nav"><FaLock/> Cambiar contraseña</Link>

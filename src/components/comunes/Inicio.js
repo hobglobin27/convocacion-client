@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import * as actions from "../../actions";
-import { CURRENT_HOME, GET_TOP_TUTORES, GET_MATERIAS_TUTOR, GET_DIRECCION_TUTOR, GET_MATERIA_DIRECCION_TUTOR } from "../../actions/types";
+import { CURRENT_HOME, GET_TOP_TUTORES, GET_MATERIAS_TUTOR, GET_DIRECCION_TUTOR, GET_MATERIA_DIRECCION_TUTOR, CURRENT_INICIO } from "../../actions/types";
 import '../estilos/styles.css';
 import { Button, AutoComplete} from 'antd';
 import ListaTutores from "../listas/listaTutores";
@@ -74,7 +74,7 @@ class Inicio extends Component{
     }    
   }
 
-  homeSelected = () => this.props.setCurrentNav(CURRENT_HOME);
+  homeSelected = () => this.props.setCurrentNav(CURRENT_INICIO);
   
   render(){
     dataSourceMaterias = this.props.materias.map(materia => materia.descripcion)

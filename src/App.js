@@ -19,6 +19,7 @@ import MiPerfil from './components/comunes/MiPerfil';
 import Ayuda from './components/comunes/Ayuda';
 import SerTutor from './components/comunes/SerTutor';
 import SerLider from './components/comunes/SerLider';
+import Grupos from './components/listas/Grupos';
 
 //Imports estilos
 import './components/estilos/styles.css';
@@ -67,7 +68,10 @@ class App extends Component {
                 </div>  
                 <div className=''>
                   <Route exact path="/ser-lider" component={SerLider} />
-                </div>         
+                </div>
+                <div className=''>
+                  <Route exact path="/grupos" component={Grupos} />
+                </div>        
                 <div className='contenedor-cambio-psw'>
                   <Route exact path="/cambiopassword" component={CambioPasswordForm} />
                 </div> 

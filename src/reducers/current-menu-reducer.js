@@ -17,7 +17,8 @@ import { CURRENT_REGISTRO,
 				CURRENT_ARTICULOS_LIDER,
 				CURRENT_CAMBIA_CONTRASENA_LIDER,
 				CURRENT_SALIR_LIDER,
-				CURRENT_BUSCAR_TUTOR } from "../actions/types";
+				CURRENT_BUSCAR_TUTOR,
+				CURRENT_INICIO } from "../actions/types";
 
 const initialState = "";
 
@@ -27,43 +28,44 @@ export default (state = initialState, action) => {
 			return state="sign-in";
 		case CURRENT_REGISTRO:
 			return state="user-plus";
-
 		case CURRENT_TUTOR:
-		return state="tutor";
+			return state="tutor";
 		case CURRENT_LIDER_GRUPO:
-		return state="lider-grupo";
+			return state="lider-grupo";
 		case CURRENT_HELP:
-		return state="help";
+			return state="help";
 		case CURRENT_COMPLETA_PERFIL:
-		return state="completa-perfil";
+			return state="completa-perfil";
 		case CURRENT_CAMBIA_CONTRASENA_PERFIL:
-		return state="cambia-contrasena-perfil";
+			return state="cambia-contrasena-perfil";
 		case CURRENT_SALIR_PERFIL:
-		return state="salir-perfil";
+			return state="salir-perfil";
 		case CURRENT_AVATAR_TUTOR:
-		return state="avatar-tutor";
+			return state="avatar-tutor";
 		case CURRENT_ASIGNACIONES:
-		return state="asignaciones";
+			return state="asignaciones";
 		case CURRENT_ARTICULOS_TUTOR:
-		return state="articulos-tutor";
+			return state="articulos-tutor";
 		case CURRENT_CAMBIA_CONTRASENA_TUTOR:
-		return state="cambia-contrasena-tutor";
+			return state="cambia-contrasena-tutor";
 		case CURRENT_SALIR_TUTOR:
-		return state="salir-tutor";
+			return state="salir-tutor";
 		case CURRENT_AVATAR_LIDER:
-		return state="avatar-lider";
+			return state="avatar-lider";
 		case CURRENT_GRUPOS:
-		return state="grupos";
+			return state="grupos";
 		case CURRENT_ARTICULOS_LIDER:
-		return state="articulos-lider";
+			return state="articulos-lider";
 		case CURRENT_CAMBIA_CONTRASENA_LIDER:
-		return state="cambia-contrasena-lider";
+			return state="cambia-contrasena-lider";
 		case CURRENT_SALIR_LIDER:
-		return state="salir-lider";
+			return state="salir-lider";
 		case CURRENT_BUSCAR_TUTOR:
-		return state="buscar-tutor"
+			return state="buscar-tutor"
 		case CURRENT_HOME:
 			return state="";
+		case CURRENT_INICIO:
+			return state="inicio";
 		default:
 			return state;
 	}
