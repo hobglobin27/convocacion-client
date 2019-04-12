@@ -37,7 +37,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Layout className="layout">
-          <Header>            
+          <Header className="sticky">            
             <div className="logo">
               <Link to="/"><img className="logoProps" src="https://res.cloudinary.com/dbwsjcrfc/image/upload/v1552166212/imagenes/logo2.png" alt=""/></Link>          
             </div>
