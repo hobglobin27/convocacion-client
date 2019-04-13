@@ -439,6 +439,10 @@ class Perfil extends Component {
 }
 
   render() {
+
+    if(this.props.loggedIn === null || this.props.loggedIn === undefined)
+      return <Redirect to="/" />
+
     const { current, visible } = this.state;
     const { getFieldDecorator } = this.props.form;
     const { previewVisible, previewImage, fileList } = this.state;
