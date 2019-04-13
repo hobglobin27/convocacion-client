@@ -45,7 +45,7 @@ class MiPerfil extends Component{
                       cover={<img alt="example" src={this.props.loggedIn.fotos[0].path} />}
                     >
                     {
-                      this.props.loggedIn === "T" ?
+                      this.props.loggedIn.tipoUsuario === "T" ?
                         <Meta
                           title="Tutor"
                         />
